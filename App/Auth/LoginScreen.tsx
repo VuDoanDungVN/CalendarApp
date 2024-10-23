@@ -15,6 +15,7 @@ const LoginScreen = ({ navigation }: any) => {
   const [password, setPassword] = useState<string>(""); // Bước 3
   const [errorMessage, setErrorMessage] = useState<string>(""); // Bước 4
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false); // Lấy ra mật khẩu và hiển thị nó
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = () => {
     // Kiểm tra định dạng email
@@ -30,7 +31,7 @@ const LoginScreen = ({ navigation }: any) => {
       setTimeout(() => setErrorMessage(""), 5000);
       return;
     }
-
+    setIsLoading(true);
     // Gọi hàm đăng nhập từ Firebase
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -39,6 +40,11 @@ const LoginScreen = ({ navigation }: any) => {
         // Kiểm tra xem email đã được xác thực hay chưa
         if (user.emailVerified) {
           setErrorMessage(""); // Xóa lỗi nếu đăng nhập thành công
+          console.log(
+            "Đã đăng nhập tài khoản : ",
+            user.email,
+            user.displayName
+          );
           navigation.replace("HomeScreen"); // Chuyển tới màn hình chính sau khi đăng nhập thành công
         } else {
           setErrorMessage("Email của bạn chưa được xác thực.");
@@ -64,6 +70,7 @@ const LoginScreen = ({ navigation }: any) => {
           );
           setTimeout(() => setErrorMessage(""), 5000);
         }
+        setIsLoading(false); // Kết thúc trạng thái tải
       });
   };
 
@@ -74,7 +81,7 @@ const LoginScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Login</Text>
+        <Text style={styles.title}>Đăng nhập</Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
@@ -119,14 +126,16 @@ const LoginScreen = ({ navigation }: any) => {
             onPress={() => navigation.navigate("RegisterScreen")}
           >
             <Text style={styles.registerText}>
-              Don't have an account?{" "}
-              <Text style={styles.registerLink}>Register</Text>
+              Bạn chưa có tài khoản?{" "}
+              <Text style={styles.registerLink}>Đăng ký</Text>
             </Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleLogin}>
           <View style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>Login</Text>
+            <Text style={styles.loginButtonText}>
+              {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
+            </Text>
           </View>
         </TouchableOpacity>
 

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, { useEffect, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase"; // Bước 1
 import {
   createUserWithEmailAndPassword,
@@ -16,6 +16,7 @@ import {
 } from "firebase/auth";
 
 const RegisterScreen = ({ navigation }: any) => {
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>(""); // Bước 2
   const [password, setPassword] = useState<string>(""); // Bước 3
   const [confirmPassword, setConfirmPassword] = useState(""); // Bước 3
@@ -29,7 +30,7 @@ const RegisterScreen = ({ navigation }: any) => {
       await sendEmailVerification(user);
       Alert.alert(
         "Xác Thực Email",
-        "Một email xác thực đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra email."
+        "Đã gửi mail xác thực. Vui lòng kiểm tra email."
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -44,22 +45,22 @@ const RegisterScreen = ({ navigation }: any) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email || !password || !confirmPassword) {
-      Alert.alert("Error", "Bạn chưa điền đầy đủ thông tin.");
+      setErrorMessage("Bạn chưa điền đầy đủ thông tin.");
       return;
     }
 
     if (!emailRegex.test(email)) {
-      Alert.alert("Error", "Email không đúng định dạng.");
+      setErrorMessage("Email không đúng định dạng.");
       return;
     }
 
     if (password.length < 6) {
-      Alert.alert("Error", "Mật khẩu cần ít nhất 6 ký tự.");
+      setErrorMessage("Mật khẩu cần ít nhất 6 ký tự.");
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Mật khẩu không khớp.");
+      setErrorMessage("Mật khẩu không khớp.");
       return;
     }
 
@@ -72,14 +73,12 @@ const RegisterScreen = ({ navigation }: any) => {
         password
       );
       const user = userCredential.user;
-
+      await updateProfile(user, {
+        displayName: name,
+      });
       await sendVerificationEmail(user);
-
       console.log("Đã gửi mail xác thực");
-      Alert.alert(
-        "Đăng ký thành công!",
-        "Vui lòng kiểm tra email và xác thực trước khi đăng nhập."
-      );
+      console.log("Đã tạo tài khoản : ", user.email, user.displayName);
       navigation.replace("LoginScreen");
     } catch (error) {
       if (error instanceof Error) {
@@ -101,9 +100,23 @@ const RegisterScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Register</Text>
+        <Text style={styles.title}>Đăng ký</Text>
       </View>
       <View style={styles.inputContainer}>
+        <View style={styles.inputWrapper}>
+          <MaterialIcons
+            name="person"
+            size={20}
+            color="#9d9d9d"
+            style={styles.icon}
+          />
+          <TextInput
+            placeholder="Full Name"
+            value={name}
+            onChangeText={setName}
+            style={styles.textInput}
+          />
+        </View>
         <View style={styles.inputWrapper}>
           <MaterialIcons
             name="mail"
@@ -165,7 +178,7 @@ const RegisterScreen = ({ navigation }: any) => {
         <View style={styles.registerContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
             <Text style={styles.registerText}>
-              Already have account?{" "}
+              Bạn đã có tài khoản?{" "}
               <Text style={styles.registerLink}>Đăng ký</Text>
             </Text>
           </TouchableOpacity>

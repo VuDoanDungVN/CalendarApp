@@ -1,8 +1,19 @@
 import { View, Text, Alert, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 
 const HomeScreen = ({ navigation }: any) => {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      }
+    });
+    return unsubscribe;
+  });
+
   const handleLogout = () => {
     auth
       .signOut()
@@ -16,7 +27,9 @@ const HomeScreen = ({ navigation }: any) => {
   };
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>HomeScreen</Text>
+      <Text style={{ color: "#836b61" }}>
+        Xin chào, {user ? user.displayName : "Khách"}
+      </Text>
       <View>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutButtonText}>Logout</Text>
