@@ -13,10 +13,10 @@ import { ContentData } from "../Data/DataList";
 const Search = ({ navigation }: any) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredResults, setFilteredResults] = useState(ContentData);
+  const [searchQuery, setSearchQuery] = useState(""); // Bước 1 
+  const [filteredResults, setFilteredResults] = useState(ContentData); // Bước 2
 
-  const handleSearch = () => {
+  const handleSearch = () => { // Bước 3
     if (!searchQuery.trim()) {
       setErrorMessage("Vui lòng nhập từ khóa tìm kiếm.");
       setTimeout(() => {
