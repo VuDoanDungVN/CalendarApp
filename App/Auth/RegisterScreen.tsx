@@ -97,10 +97,11 @@ const RegisterScreen = ({ navigation }: any) => {
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Đăng ký</Text>
+        <Text style={styles.title}>Register</Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
@@ -178,8 +179,8 @@ const RegisterScreen = ({ navigation }: any) => {
         <View style={styles.registerContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
             <Text style={styles.registerText}>
-              Bạn đã có tài khoản?{" "}
-              <Text style={styles.registerLink}>Đăng ký</Text>
+              You already have an account?{" "}
+              <Text style={styles.registerLink}>Sign in</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -188,7 +189,7 @@ const RegisterScreen = ({ navigation }: any) => {
           <TouchableOpacity onPress={handleSignUp} disabled={isLoading}>
             <View style={styles.signUpButton}>
               <Text style={styles.signUpButtonText}>
-                {isLoading ? "Đang đăng ký..." : "Đăng ký"}
+                {isLoading ? "Registering..." : "Register"}
               </Text>
             </View>
           </TouchableOpacity>

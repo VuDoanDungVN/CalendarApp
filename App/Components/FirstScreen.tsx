@@ -11,7 +11,7 @@ export default function FirstScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../assets/background.png")}
+        source={require("../../assets/bg.png")}
         style={styles.backgroundImage}
       >
         <View style={styles.textContainer}>

@@ -45,7 +45,7 @@ const LoginScreen = ({ navigation }: any) => {
             user.email,
             user.displayName
           );
-          navigation.replace("HomeScreen"); // Chuyển tới màn hình chính sau khi đăng nhập thành công
+          navigation.replace("MainTabs"); // Chuyển tới màn hình Main Tabs để hiển thị Tab và HomeScreen khi đăng nhập thành công
         } else {
           setErrorMessage("Email của bạn chưa được xác thực.");
           setTimeout(() => setErrorMessage(""), 5000);
@@ -81,7 +81,10 @@ const LoginScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Đăng nhập</Text>
+        <Text style={styles.title}>Login</Text>
+      </View>
+      <View>
+        <Text style={styles.titleLogin}>Please sign in to continue.</Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
@@ -126,15 +129,15 @@ const LoginScreen = ({ navigation }: any) => {
             onPress={() => navigation.navigate("RegisterScreen")}
           >
             <Text style={styles.registerText}>
-              Bạn chưa có tài khoản?{" "}
-              <Text style={styles.registerLink}>Đăng ký</Text>
+              Don't have an account?{" "}
+              <Text style={styles.registerLink}>Sign up</Text>
             </Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleLogin}>
           <View style={styles.loginButton}>
             <Text style={styles.loginButtonText}>
-              {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
+              {isLoading ? "Signing in..." : "Login"}
             </Text>
           </View>
         </TouchableOpacity>
@@ -160,6 +163,11 @@ const styles = StyleSheet.create({
     color: "#5F5F5F",
     fontSize: 25,
     fontWeight: "600",
+  },
+  titleLogin: {
+    color: "#5F5F5F",
+    fontSize: 15,
+    marginTop: 10,
   },
   inputContainer: {
     width: "80%",

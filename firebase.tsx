@@ -9,12 +9,13 @@ import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC8hj9ZODCcvbBsDPxknRiAmcP4zFZgBvo",
-  authDomain: "loginapp-6447a.firebaseapp.com",
-  projectId: "loginapp-6447a",
-  storageBucket: "loginapp-6447a",
-  messagingSenderId: "849150971302",
-  appId: "1:849150971302:web:b5042d823c23c5f1ee9367",
+  apiKey: "AIzaSyDg3rMnaKE2w2AxspSqWsvPdcE-NFptsUI",
+  authDomain: "calendarapp-occ.firebaseapp.com",
+  projectId: "calendarapp-occ",
+  storageBucket: "calendarapp-occ.appspot.com",
+  messagingSenderId: "552088738570",
+  appId: "1:552088738570:web:b8091e9dce889f85ce38f3",
+  measurementId: "G-ZQQF9JPQWW",
 };
 
 // Initialize Firebase app
