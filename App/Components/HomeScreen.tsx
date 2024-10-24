@@ -42,12 +42,20 @@ const HomeScreen = ({ navigation }: any) => {
   // Slider Data
   const _renderItem = ({ item }: any) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate("Content")}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("DetailScreen", { item })}
+      >
         <View style={styles.sliderItem}>
           <Image source={item.image} style={styles.sliderImage} />
           <View style={styles.sliderTextContainer}>
             <Text style={styles.sliderTitle}>{item.title}</Text>
-            <Text style={styles.sliderContent}>{item.content}</Text>
+            <Text
+              numberOfLines={2}
+              ellipsizeMode="tail"
+              style={styles.sliderContent}
+            >
+              {item.eventDescription}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -64,10 +72,21 @@ const HomeScreen = ({ navigation }: any) => {
             </Text>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {DataList.map((category, index) => (
-              <TouchableOpacity key={index}>
+            {ContentData.map((categories, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  navigation.navigate("Categories", { categories })
+                }
+              >
                 <View style={styles.categoriesContainer}>
-                  <Text style={{ color: "#456FE8" }}>{category.title}</Text>
+                  <Text
+                    style={{ color: "#456FE8" }}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {categories.categories}
+                  </Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -100,27 +119,33 @@ const HomeScreen = ({ navigation }: any) => {
             <Text style={styles.recentActivityText}>Featured article</Text>
             <Text style={styles.showAllText}>Show all</Text>
           </View>
-          {ContentData.map((content, index) => (
-            <TouchableOpacity key={index}>
+          {ContentData.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => navigation.navigate("DetailScreen", { item })}
+            >
               <View style={styles.featuredArticleContainer}>
                 <View style={styles.featuredArticleContent}>
                   <Image
-                    source={content.image}
+                    source={item.image}
                     style={styles.featuredArticleImage}
                   />
                   <View style={styles.featuredArticleTextContainer}>
                     <Text style={styles.featuredArticleTitle}>
-                      {content.title}
+                      {item.title}
                     </Text>
-                    <Text style={styles.featuredArticleDescription}>
-                      {content.content}
+                    <Text
+                      numberOfLines={2}
+                      style={styles.featuredArticleDescription}
+                    >
+                      {item.eventDescription}
                     </Text>
                     <View style={styles.featuredArticleFooter}>
                       <Text style={styles.featuredArticleAuthor}>
-                        {content.author}
+                        {item.author}
                       </Text>
                       <Text style={styles.featuredArticleDate}>
-                        {content.date}
+                        {item.date}
                       </Text>
                     </View>
                   </View>
