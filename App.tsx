@@ -5,12 +5,13 @@ import FirstScreen from "./App/Components/FirstScreen";
 import LoginScreen from "./App/Auth/LoginScreen";
 import RegisterScreen from "./App/Auth/RegisterScreen";
 import HomeScreen from "./App/Components/HomeScreen";
-import Content from "./App/Content/Content";
+import Content from "./App/Content/DetailScreen";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Search from "./App/Tab/Search";
 import Location from "./App/Tab/Location";
 import Calendar from "./App/Tab/Calendar";
 import Profile from "./App/Tab/Profile";
+import Categories from "./App/Content/Categories";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -79,14 +80,28 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="MainTabs"
-          component={MainTabs}
-          options={{ headerShown: false }}
+          name="DetailScreen"
+          component={Content}
+          options={{ title: "", headerBackTitleVisible: false }}
         />
         <Stack.Screen
-          name="Content"
-          component={Content}
-          options={{ title: "Content", headerBackTitleVisible: false }}
+          name="Categories"
+          component={Categories}
+          options={{ title: "", headerBackTitleVisible: false }}
+        />
+        <Stack.Screen
+          name="Calendar"
+          component={Calendar}
+          options={{ title: "", headerBackTitleVisible: false }}
+        />
+        <Stack.Screen
+          name="MainTabs"
+          component={MainTabs}
+          options={{
+            headerShown: false,
+            headerBackTitleVisible: false,
+            gestureEnabled: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
