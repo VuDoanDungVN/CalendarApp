@@ -13,10 +13,11 @@ import { ContentData } from "../Data/DataList";
 const Search = ({ navigation }: any) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // Bước 1 
+  const [searchQuery, setSearchQuery] = useState(""); // Bước 1
   const [filteredResults, setFilteredResults] = useState(ContentData); // Bước 2
 
-  const handleSearch = () => { // Bước 3
+  const handleSearch = () => {
+    // Bước 3
     if (!searchQuery.trim()) {
       setErrorMessage("Vui lòng nhập từ khóa tìm kiếm.");
       setTimeout(() => {
@@ -30,7 +31,7 @@ const Search = ({ navigation }: any) => {
     setIsLoading(true);
     setTimeout(() => {
       const results = ContentData.filter((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase())
+        item.eventName.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredResults(results);
       if (results.length === 0) {
@@ -75,9 +76,9 @@ const Search = ({ navigation }: any) => {
             onPress={() => navigation.navigate("DetailScreen", { item })}
           >
             <View key={index} style={styles.resultItem}>
-              <Image source={item.image} style={styles.resultImage} />
+              <Image source={item.eventImage} style={styles.resultImage} />
               <View style={styles.resultTextContainer}>
-                <Text style={styles.resultTitle}>{item.title}</Text>
+                <Text style={styles.resultTitle}>{item.eventName}</Text>
                 <Text numberOfLines={2} style={styles.resultContent}>
                   {item.eventDescription}
                 </Text>

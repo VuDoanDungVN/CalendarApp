@@ -6,140 +6,62 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Button,
   Alert,
 } from "react-native";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
-export default function DetailScreen({ route }: any) {
-  const [interested, setInterested] = useState(0);
+export default function DetailScreen({ route, navigation }: any) {
   const { item } = route.params;
+  const [interested, setInterested] = useState(0);
 
   const handleInterested = () => {
     setInterested((prevInterested) => prevInterested + 1);
-    Alert.alert("Interested","Bạn đã đăng ký xong!")
+
+    if (item.date) {
+      // Kiểm tra nếu item.date tồn tại
+      navigation.navigate("Calendar", { selectedDate: item.date });
+      console.log("Đã truyền ngày sự kiện:", item.date);
+    } else {
+      Alert.alert("Lỗi", "Ngày sự kiện không hợp lệ.");
+    }
   };
 
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: "#fff", padding: 10, gap: 10 }}
-    >
-      <View>
-        <View style={styles.eventContainer}>
-          <View style={styles.eventDate}>
-            <Text style={styles.eventDateText}>{item.day}</Text>
-            <Text style={styles.eventDateSeparator}></Text>
-            <Text style={styles.eventDateText}>{item.sort}</Text>
-          </View>
-          <View>
-            <Text style={styles.eventLine}></Text>
-          </View>
-          <View>
-            <Text style={styles.eventTitle}>{item.eventName}</Text>
-            <Text style={styles.eventLocation}>{item.location}</Text>
-          </View>
-        </View>
-        <View style={styles.imageContainer}>
-          <Image source={item.image} style={styles.eventImage} />
+    <ScrollView style={styles.container}>
+      <View style={styles.eventContainer}>
+        <View style={styles.eventDate}>
+          <Text style={styles.eventDateText}>{item.date}</Text>
+          <Text style={styles.eventDateSeparator}></Text>
+          <Text style={styles.eventDateText}>{item.sort}</Text>
         </View>
         <View>
-          <Text style={styles.separator}></Text>
-        </View>
-        <View style={styles.attendanceContainer}>
-          <View style={styles.attendanceBox}>
-            <Text style={styles.attendanceText}>{interested}/100</Text>
-          </View>
-          <View style={styles.attendanceDetails}>
-            <View>
-              <Text style={styles.attendanceLabel}>Attending</Text>
-            </View>
-            <View style={styles.attendanceImages}>
-              <Image
-                source={require("../../assets/Content/2.jpg")}
-                style={styles.attendanceImage}
-              />
-              <Image
-                source={require("../../assets/Content/3.jpg")}
-                style={styles.attendanceImage}
-              />
-              <Image
-                source={require("../../assets/Content/5.jpg")}
-                style={styles.attendanceImage}
-              />
-              <View style={styles.attendanceMore}>
-                <Text style={styles.attendanceMoreText}>+12</Text>
-              </View>
-            </View>
-          </View>
+          <Text style={styles.eventLine}></Text>
         </View>
         <View>
-          <Text style={styles.separator}></Text>
-        </View>
-        <View>
-          <TouchableOpacity onPress={handleInterested}>
-            <View style={styles.interestedButton}>
-              <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 15 }}>
-                Interested
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View>
-            <Text style={styles.eventTitle}>{item.title}</Text>
-          </View>
-          <View style={styles.eventCard}>
-            <View>
-              <Text style={styles.eventLabel}>Event Name:</Text>
-              <Text style={styles.eventDetail}>{item.eventName}</Text>
-            </View>
-            <View>
-              <Text style={styles.eventLabel}>Date:</Text>
-              <Text style={styles.eventDetail}>{item.date}</Text>
-            </View>
-            <View>
-              <Text style={styles.eventLabel}>Time:</Text>
-              <Text style={styles.eventDetail}>{item.time}</Text>
-            </View>
-            <View>
-              <Text style={styles.eventLabel}>Location:</Text>
-              <Text style={styles.eventDetail}>{item.location}</Text>
-            </View>
-          </View>
-          <View style={styles.eventCard}>
-            <View>
-              <Text style={styles.eventLabel}>Event Description:</Text>
-              <Text style={styles.eventDetail}>{item.eventDescription}</Text>
-            </View>
-          </View>
-          <View style={styles.eventCard}>
-            <View>
-              <Text style={styles.eventLabel}>Tickets:</Text>
-              <Text style={styles.eventDetail}>
-                General Admission: ¥{item.ticketsGeneralAdmission}
-              </Text>
-              <Text style={styles.eventDetail}>
-                Children: ¥ {item.ticketsChildren}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.eventCard}>
-            <View>
-              <Text style={styles.eventLabel}>How to Get There:</Text>
-              <Text style={styles.eventDetail}>{item.howToMove}</Text>
-            </View>
-          </View>
-          <View style={styles.eventCard}>
-            <View>
-              <Text style={styles.eventLabel}>Additional Info:</Text>
-              <Text style={styles.eventDetail}>{item.additionalInfo}</Text>
-            </View>
-          </View>
+          <Text style={styles.eventTitle}>{item.eventName}</Text>
+          <Text style={styles.eventLocation}>{item.location}</Text>
         </View>
       </View>
+      <View style={styles.imageContainer}>
+        <Image source={item.eventImage} style={styles.eventImage} />
+      </View>
+      <Text style={styles.separator}></Text>
+      <View style={styles.attendanceContainer}>
+        <View style={styles.attendanceBox}>
+          <Text style={styles.attendanceText}>{interested}/100</Text>
+        </View>
+      </View>
+      <TouchableOpacity activeOpacity={0.7} onPress={handleInterested}>
+        <View style={styles.interestedButton}>
+          <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 15 }}>
+            Interested
+          </Text>
+        </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
+
+// CSS styles giữ nguyên như cũ, không cần sửa đổi thêm
 
 const styles = StyleSheet.create({
   container: {
