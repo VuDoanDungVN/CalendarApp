@@ -9,9 +9,9 @@ import Content from "./App/Content/DetailScreen";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Search from "./App/Tab/Search";
 import Location from "./App/Tab/Location";
-import Calendar from "./App/Tab/Calendar";
 import Profile from "./App/Tab/Profile";
 import Categories from "./App/Content/Categories";
+import CalendarScreen from "./App/Tab/Calendar";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,7 +54,7 @@ function MainTabs() {
       />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Location" component={Location} />
-      <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
@@ -90,8 +90,8 @@ export default function App() {
           options={{ title: "", headerBackTitleVisible: false }}
         />
         <Stack.Screen
-          name="Calendar"
-          component={Calendar}
+          name="CalendarScreen"
+          component={CalendarScreen}
           options={{ title: "", headerBackTitleVisible: false }}
         />
         <Stack.Screen

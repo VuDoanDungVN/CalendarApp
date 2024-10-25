@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
-import { ContentData, DataList } from "../Data/DataList";
+import { ContentData } from "../Data/DataList";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
 const HomeScreen = ({ navigation }: any) => {
@@ -46,9 +46,9 @@ const HomeScreen = ({ navigation }: any) => {
         onPress={() => navigation.navigate("DetailScreen", { item })}
       >
         <View style={styles.sliderItem}>
-          <Image source={item.image} style={styles.sliderImage} />
+          <Image source={item.eventImage} style={styles.sliderImage} />
           <View style={styles.sliderTextContainer}>
-            <Text style={styles.sliderTitle}>{item.title}</Text>
+            <Text style={styles.sliderTitle}>{item.eventName}</Text>
             <Text
               numberOfLines={2}
               ellipsizeMode="tail"
@@ -127,12 +127,12 @@ const HomeScreen = ({ navigation }: any) => {
               <View style={styles.featuredArticleContainer}>
                 <View style={styles.featuredArticleContent}>
                   <Image
-                    source={item.image}
+                    source={item.eventImage}
                     style={styles.featuredArticleImage}
                   />
                   <View style={styles.featuredArticleTextContainer}>
                     <Text style={styles.featuredArticleTitle}>
-                      {item.title}
+                      {item.eventName}
                     </Text>
                     <Text
                       numberOfLines={2}
