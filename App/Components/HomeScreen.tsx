@@ -68,7 +68,7 @@ const HomeScreen = ({ navigation }: any) => {
         <View>
           <View>
             <Text style={styles.titleCustomer}>
-              Hi, {user ? user.displayName : "Guest"}
+              ようこそ, {user ? user.displayName : "Guest"}
             </Text>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -92,8 +92,8 @@ const HomeScreen = ({ navigation }: any) => {
             ))}
           </ScrollView>
           <View style={styles.recentActivityContainer}>
-            <Text style={styles.recentActivityText}>Recent Activity</Text>
-            <Text style={styles.showAllText}>Show all</Text>
+            <Text style={styles.recentActivityText}>最近の活動</Text>
+            <Text style={styles.showAllText}>すべて</Text>
           </View>
           <View style={styles.popularSection}>
             <Carousel
@@ -116,8 +116,8 @@ const HomeScreen = ({ navigation }: any) => {
             />
           </View>
           <View style={styles.recentActivityContainer}>
-            <Text style={styles.recentActivityText}>Featured article</Text>
-            <Text style={styles.showAllText}>Show all</Text>
+            <Text style={styles.recentActivityText}>注目記事</Text>
+            <Text style={styles.showAllText}>すべて</Text>
           </View>
           {ContentData.map((item, index) => (
             <TouchableOpacity

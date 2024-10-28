@@ -1,51 +1,70 @@
-// Ví dụ ContentData với các sự kiện
 export const ContentData = [
   {
-    categories: "Japan",
-    author: "Admin",
+    categories: "日本",
+    author: "管理者",
     eventImage: require("../../assets/Content/2.jpg"),
-    eventName: "Hội chợ Văn hóa Đà Nẵng",
+    eventName: "ダナン文化祭",
     eventDescription:
-      "Tham gia hội chợ để khám phá văn hóa đặc sắc của Đà Nẵng với các món ăn truyền thống và các buổi biểu diễn nghệ thuật.",
-    date: "2024-10-30", // Định dạng YYYY-MM-DD
+      "このダナン文化祭では、地域の伝統と独特な文化を幅広く体験することができます。地元のシェフによる伝統料理の試食や、地域アーティストによる美しい舞踊や音楽のパフォーマンスが行われ、観光客や文化愛好者にとって見逃せないイベントです。また、さまざまなワークショップも開催され、家族や友人と一緒に楽しむことができます。",
+    date: "2024-10-30",
     time: "10:00 AM - 5:00 PM",
-    location: "Công viên Biển Đông, Đà Nẵng",
-    ticketsGeneralAdmission: "100000",
+    location: "ダナン・ビーチパーク",
+    ticketsGeneralAdmission: "10000",
+    ticketsChildren: "無料",
+    howToGetThere:
+      "このイベントは那覇市の沖縄県立ホールで行われ、ゆいレールを利用すれば簡単にアクセスできます。那覇空港からホールまでは電車でわずか20分ほどの距離で、最寄りの駅から徒歩5分程度です。会場周辺には多くのカフェやレストランもあり、イベント参加後のひとときを楽しむことができます。",
+    additionalInfo:
+      "会場には沖縄の名物であるソーキそばやゴーヤチャンプルをはじめとするさまざまな地元料理の屋台が立ち並びます。また、地域の特産品を紹介するブースや、家族向けのアクティビティが充実しており、地元文化を満喫できる内容となっています。このイベントは特に家族連れや、沖縄の文化を知りたい観光客にとって理想的な場所です。",
   },
   {
-    categories: "Japan",
-    author: "Admin",
+    categories: "日本",
+    author: "管理者",
     eventImage: require("../../assets/Content/3.jpg"),
-    eventName: "Triển lãm Sách Quốc tế",
+    eventName: "国際書籍展示会",
     eventDescription:
-      "Triển lãm sách với hàng ngàn đầu sách từ các tác giả nổi tiếng trên thế giới, cùng nhiều hoạt động văn hóa bổ ích.",
-    date: "2024-10-25", // Cùng ngày với sự kiện trên
+      "毎年恒例の国際書籍展示会では、世界中の名作や新刊が一堂に会し、数千冊以上の書籍が展示されます。文学、ビジネス、科学、歴史など多様なジャンルの本が揃っており、訪問者はお好きな本を見つけたり、新しいジャンルに挑戦する機会が広がります。また、著者とのトークショーやサイン会、子供向けのワークショップも開催されるため、全年齢層が楽しめるイベントです。",
+    date: "2024-10-25",
     time: "9:00 AM - 7:00 PM",
-    location: "Trung tâm Hội nghị Quốc gia, Hà Nội",
-    ticketsGeneralAdmission: "Miễn phí",
+    location: "ハノイ・ナショナルコンベンションセンター",
+    ticketsGeneralAdmission: "3000",
+    ticketsChildren: "無料",
+    howToGetThere:
+      "このイベントは那覇市の沖縄県立ホールで開催され、ゆいレールで簡単に到着できます。最寄りの駅から会場までは徒歩約5分と非常に便利です。また、周辺には宿泊施設やレストランも充実しており、遠方からの参加者にも便利な立地となっています。",
+    additionalInfo:
+      "会場には沖縄の伝統料理を提供する多くの屋台が並び、地元の味を堪能することができます。特に、ソーキそばやゴーヤチャンプルは人気が高く、現地の味を楽しむには絶好の機会です。このイベントは特に文化に興味がある方や家族連れに最適です。また、記念品として購入できる沖縄特産品の販売ブースも用意されています。",
   },
   {
-    categories: "Japan",
-    author: "Admin",
+    categories: "日本",
+    author: "管理者",
     eventImage: require("../../assets/Content/4.jpg"),
-    eventName: "Lễ hội Hoa Anh Đào",
+    eventName: "桜祭り",
     eventDescription:
-      "Lễ hội Hoa Anh Đào Nhật Bản hàng năm tại Hà Nội, thưởng thức vẻ đẹp của hoa anh đào và văn hóa Nhật Bản.",
-    date: "2024-10-26", // Ngày khác
+      "日本の桜祭りが毎年ハノイで開催され、美しい桜の花とともに、日本の伝統文化を楽しむことができるイベントです。祭りでは和太鼓、盆踊り、茶道のデモンストレーションが行われ、訪問者は日本の文化に触れる絶好の機会となっています。さらに、さまざまな和食の屋台も登場し、特にお花見の雰囲気を楽しみたい人にはおすすめのイベントです。",
+    date: "2024-10-26",
     time: "8:00 AM - 6:00 PM",
-    location: "Hồ Tây, Hà Nội",
-    ticketsGeneralAdmission: "Miễn phí",
+    location: "ハノイ・ホアンキエム湖",
+    ticketsGeneralAdmission: "5000",
+    ticketsChildren: "無料",
+    howToGetThere:
+      "このイベントは那覇市の沖縄県立ホールで開催され、ゆいレールの利用で簡単にアクセス可能です。電車を降りてから徒歩数分の距離にあり、周辺には散策できるエリアも多いため、イベントの前後に観光を楽しむこともできます。",
+    additionalInfo:
+      "屋台には日本の伝統的なお菓子や料理が並び、特に桜をテーマにしたデザートが注目されています。家族連れや友人同士での参加が多く、賑やかな雰囲気の中で日本の文化に触れることができます。イベント会場には、お土産として日本の工芸品を販売するブースも設置されています。",
   },
   {
-    categories: "Japan",
-    author: "Admin",
+    categories: "日本",
+    author: "管理者",
     eventImage: require("../../assets/Content/6.jpg"),
-    eventName: "Chương trình Hòa nhạc Mùa thu",
+    eventName: "秋の音楽コンサート",
     eventDescription:
-      "Buổi hòa nhạc với sự tham gia của dàn nhạc giao hưởng hàng đầu, trình diễn các bản nhạc cổ điển nổi tiếng.",
+      "秋の夜長を彩る音楽コンサートでは、世界的に有名な交響楽団が登場し、モーツァルトやベートーヴェンといったクラシックの名曲を演奏します。コンサートホールはその音響設計で評価が高く、まるで音に包まれるような体験ができます。音楽愛好者はもちろん、初心者でも楽しめる選曲で構成されており、一夜限りの特別なひとときが過ごせます。",
     date: "2024-10-27",
     time: "6:00 PM - 9:00 PM",
-    location: "Nhà hát Lớn Hà Nội",
-    ticketsGeneralAdmission: "150000",
+    location: "ハノイ・オペラハウス",
+    ticketsGeneralAdmission: "15000",
+    ticketsChildren: "無料",
+    howToGetThere:
+      "このイベントは那覇市の沖縄県立ホールで開催されており、ゆいレールを利用すれば快適にアクセスできます。会場は中心街に位置し、周辺にはレストランやホテルも多いため、終演後も素敵な時間を過ごすことができます。",
+    additionalInfo:
+      "会場の近くには沖縄料理を楽しめるレストランも点在しており、特に音楽を聴いた後に沖縄の味を楽しむことができます。コンサート自体は家族連れから音楽愛好者まで、幅広い年齢層に支持されているため、リラックスした雰囲気で音楽に親しむことができます。",
   },
 ];

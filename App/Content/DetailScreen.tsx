@@ -21,53 +21,60 @@ export default function DetailScreen({ route, navigation }: any) {
       navigation.navigate("Calendar", { selectedDate: item.date });
       console.log("Đã truyền ngày sự kiện:", item.date);
     } else {
-      Alert.alert("Lỗi", "Ngày sự kiện không hợp lệ.");
+      Alert.alert("エラー", "イベントの日付が無効です。");
     }
   };
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.eventContainer}>
-        <View style={styles.eventDate}>
-          <Text style={styles.eventDateText}>{item.date}</Text>
-          <Text style={styles.eventDateSeparator}></Text>
-          <Text style={styles.eventDateText}>{item.sort}</Text>
-        </View>
         <View>
-          <Text style={styles.eventLine}></Text>
-        </View>
-        <View>
-          <Text style={styles.eventTitle}>{item.eventName}</Text>
-          <Text style={styles.eventLocation}>{item.location}</Text>
-        </View>
-      </View>
-      <View style={styles.imageContainer}>
-        <Image source={item.eventImage} style={styles.eventImage} />
-      </View>
-      <Text style={styles.separator}></Text>
-      <View style={styles.attendanceContainer}>
-        <View style={styles.attendanceBox}>
-          <Text style={styles.attendanceText}>{interested}/100</Text>
+          <Text style={styles.eventTitle}>イベント名 : {item.eventName}</Text>
+          <Text style={styles.eventLocation}>場所 : {item.location}</Text>
+          <Text style={styles.eventDate}>日付 : {item.date}</Text>
         </View>
       </View>
       <TouchableOpacity activeOpacity={0.7} onPress={handleInterested}>
         <View style={styles.interestedButton}>
           <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 15 }}>
-            Interested
+            参加
           </Text>
         </View>
       </TouchableOpacity>
+      <View style={styles.eventCard}>
+        <View>
+          <Text style={styles.eventLabel}>イベント情報 :</Text>
+          <Text>{item.eventDescription}</Text>
+        </View>
+      </View>
+      <View style={styles.eventCard}>
+        <View>
+          <Text style={styles.eventLabel}>チケット :</Text>
+          <Text>大人 : ¥ {item.ticketsGeneralAdmission}</Text>
+          <Text>子供 : {item.ticketsChildren}</Text>
+        </View>
+      </View>
+      <View style={styles.eventCard}>
+        <View>
+          <Text style={styles.eventLabel}>そこに行く方法 :</Text>
+          <Text>General Children: {item.howToGetThere}</Text>
+        </View>
+      </View>
+      <View style={styles.eventCard}>
+        <View>
+          <Text style={styles.eventLabel}>追加情報 :</Text>
+          <Text>{item.additionalInfo}</Text>
+        </View>
+      </View>
     </ScrollView>
   );
 }
 
-// CSS styles giữ nguyên như cũ, không cần sửa đổi thêm
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#fafafa",
     flex: 1,
-    padding: 5,
+    padding: 10,
   },
   headerText: {
     fontSize: 15,
@@ -131,14 +138,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   eventDate: {
-    backgroundColor: "#456FE8",
-    height: 70,
-    width: 70,
-    borderRadius: 50,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 3,
+    fontSize: 15,
+    color: "#5F5F5F",
   },
   eventDateText: {
     fontSize: 20,
@@ -284,6 +285,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     marginVertical: 10,
+    color: "#456FE8",
   },
   eventCard: {
     backgroundColor: "#f9f9f9",
@@ -297,6 +299,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "600",
     marginVertical: 5,
+    color: "#456FE8",
   },
   eventDetail: {
     fontSize: 15,

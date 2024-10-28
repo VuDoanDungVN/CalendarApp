@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, Text, StyleSheet, RefreshControl } from "react-native";
 import { Agenda } from "react-native-calendars";
+import { useFocusEffect } from "@react-navigation/native";
 import { ContentData } from "../Data/DataList";
 
 interface AgendaItem {
@@ -22,16 +23,17 @@ const CalendarScreen = ({ route }: any) => {
     initialSelectedDate || new Date().toISOString().split("T")[0]
   );
   const [markedDates, setMarkedDates] = useState<{ [key: string]: any }>({});
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (initialSelectedDate) {
       onDayPress({ dateString: initialSelectedDate });
     } else {
-      loadItemsForMonth(new Date()); // Gọi loadItemsForMonth khi vào từ Tab
+      loadItemsForMonth(new Date());
     }
   }, [initialSelectedDate]);
+
   useEffect(() => {
-    // Tạo đối tượng markedDates để đánh dấu ngày có sự kiện
     const newMarkedDates: { [key: string]: any } = {};
     ContentData.forEach((event) => {
       newMarkedDates[event.date] = {
@@ -42,53 +44,84 @@ const CalendarScreen = ({ route }: any) => {
     setMarkedDates(newMarkedDates);
   }, [ContentData]);
 
+  useFocusEffect(
+    useCallback(() => {
+      if (!initialSelectedDate) {
+        loadItemsForMonth(new Date());
+      }
+    }, [initialSelectedDate])
+  );
+
   const loadItemsForMonth = (month: any) => {
+    const startOfMonth = new Date(month.year, month.month - 1, 1);
+    const endOfMonth = new Date(month.year, month.month, 0);
+    const monthKey = `${month.year}-${month.month}`; // Sử dụng monthKey để đánh dấu tháng đã tải dữ liệu
+
+    // Nếu tháng đã có dữ liệu, không tải lại
+    if (items[monthKey]) return;
+
     const today = new Date().toISOString().split("T")[0];
-    const newItems: AgendaItems = { ...items }; // Giữ lại các sự kiện đã có để không ghi đè
+    const newItems: AgendaItems = { ...items };
 
     ContentData.forEach((event) => {
       if (initialSelectedDate || event.date >= today) {
-        // Nếu có ngày ban đầu hoặc từ ngày hôm nay
         const dateKey = event.date;
         if (!newItems[dateKey]) {
           newItems[dateKey] = [];
         }
-        newItems[dateKey].push({
-          name: event.eventName,
-          description: event.eventDescription,
-          time: event.time,
-          location: event.location,
-          tickets: event.ticketsGeneralAdmission,
-        });
+        if (
+          !newItems[dateKey].some(
+            (item) => item.name === event.eventName && item.time === event.time
+          )
+        ) {
+          newItems[dateKey].push({
+            name: event.eventName,
+            description: event.eventDescription,
+            time: event.time,
+            location: event.location,
+            tickets: event.ticketsGeneralAdmission,
+          });
+        }
       }
     });
+
+    // Thêm các ngày trống trong tháng
+    for (let d = startOfMonth; d <= endOfMonth; d.setDate(d.getDate() + 1)) {
+      const dateKey = d.toISOString().split("T")[0];
+      if (!newItems[dateKey]) {
+        newItems[dateKey] = [];
+      }
+    }
 
     setItems(newItems);
   };
 
   const onDayPress = (day: any) => {
-    setSelectedDate(day.dateString);
+    if (day.dateString !== selectedDate) {
+      setSelectedDate(day.dateString);
+      const selectedDayEvents = ContentData.filter(
+        (event) => event.date === day.dateString
+      ).map((event) => ({
+        name: event.eventName,
+        description: event.eventDescription,
+        time: event.time,
+        location: event.location,
+        tickets: event.ticketsGeneralAdmission,
+      }));
 
-    const selectedDayEvents = ContentData.filter(
-      (event) => event.date === day.dateString
-    ).map((event) => ({
-      name: event.eventName,
-      description: event.eventDescription,
-      time: event.time,
-      location: event.location,
-      tickets: event.ticketsGeneralAdmission,
-    }));
-
-    setItems({ [day.dateString]: selectedDayEvents });
+      setItems({ [day.dateString]: selectedDayEvents });
+    }
   };
 
   const renderItem = (item: AgendaItem) => {
     return (
       <View style={styles.item}>
         <Text style={styles.itemText}>{item.name}</Text>
-        <Text style={styles.itemText}>{item.description}</Text>
-        <Text style={styles.itemText}>Thời gian: {item.time}</Text>
-        <Text style={styles.itemText}>Địa điểm: {item.location}</Text>
+        <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
+          {item.description}
+        </Text>
+        <Text style={styles.itemText}>{item.time}</Text>
+        <Text style={styles.itemText}>{item.location}</Text>
       </View>
     );
   };
@@ -96,9 +129,15 @@ const CalendarScreen = ({ route }: any) => {
   const renderEmptyDate = () => {
     return (
       <View style={styles.emptyDate}>
-        <Text>Không có sự kiện cho ngày này</Text>
+        <Text>データがありません</Text>
       </View>
     );
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    loadItemsForMonth(new Date());
+    setIsRefreshing(false);
   };
 
   return (
@@ -112,8 +151,11 @@ const CalendarScreen = ({ route }: any) => {
         renderEmptyDate={renderEmptyDate}
         markedDates={{
           ...markedDates,
-          [selectedDate]: { selected: true, selectedColor: "#456FE8" }, // Đánh dấu ngày được chọn
+          [selectedDate]: { selected: true, selectedColor: "#456FE8" },
         }}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
+        }
         theme={{
           selectedDayBackgroundColor: "#456FE8",
           todayTextColor: "#456FE8",
@@ -123,6 +165,9 @@ const CalendarScreen = ({ route }: any) => {
           agendaTodayColor: "#456FE8",
           agendaKnobColor: "#456FE8",
           backgroundColor: "#ccc",
+          borderRadius: 15,
+          borderWidth: 0.5,
+          borderColor: "#ccc",
         }}
       />
     </View>
