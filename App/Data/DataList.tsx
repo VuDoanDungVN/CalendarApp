@@ -1,3 +1,5 @@
+// DataList.tsx
+
 export const ContentData = [
   {
     categories: "日本",
