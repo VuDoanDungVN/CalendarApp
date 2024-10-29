@@ -12,6 +12,8 @@ import Location from "./App/Tab/Location";
 import Profile from "./App/Tab/Profile";
 import Categories from "./App/Content/Categories";
 import CalendarScreen from "./App/Tab/Calendar";
+import ListScreen from "./App/Components/ListScreen";
+import CategoriesScreen from "./App/Content/Categories";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,12 +52,28 @@ function MainTabs() {
       <Tab.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ title: "Home" }}
+        options={{ title: "ホーム" }}
       />
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Location" component={Location} />
-      <Tab.Screen name="Calendar" component={CalendarScreen} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{ title: "検索" }}
+      />
+      <Tab.Screen
+        name="Location"
+        component={Location}
+        options={{ title: "地図" }}
+      />
+      <Tab.Screen
+        name="Calendar"
+        component={CalendarScreen}
+        options={{ title: "カレンダー" }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{ title: "ユーザー" }}
+      />
     </Tab.Navigator>
   );
 }
@@ -82,17 +100,22 @@ export default function App() {
         <Stack.Screen
           name="DetailScreen"
           component={Content}
-          options={{ title: "", headerBackTitleVisible: false }}
+          options={{ title: "イベント情報", headerBackTitleVisible: false }}
         />
         <Stack.Screen
           name="Categories"
-          component={Categories}
+          component={CategoriesScreen}
           options={{ title: "", headerBackTitleVisible: false }}
         />
         <Stack.Screen
           name="CalendarScreen"
           component={CalendarScreen}
           options={{ title: "", headerBackTitleVisible: false }}
+        />
+        <Stack.Screen
+          name="ListScreen"
+          component={ListScreen}
+          options={{ title: "すべて", headerBackTitleVisible: false }}
         />
         <Stack.Screen
           name="MainTabs"

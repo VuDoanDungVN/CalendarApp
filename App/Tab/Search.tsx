@@ -50,7 +50,7 @@ const Search = ({ navigation }: any) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{ backgroundColor: "#F0F4FF", borderRadius: 5 }}>
+      <View style={{ backgroundColor: "#fff", borderRadius: 5 }}>
         <TextInput
           placeholder="検索..."
           value={searchQuery}
@@ -70,7 +70,7 @@ const Search = ({ navigation }: any) => {
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       </View>
       <View style={styles.resultsContainer}>
-        {filteredResults.slice(0, 10).map((item, index) => (
+        {filteredResults.map((item, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => navigation.navigate("DetailScreen", { item })}
@@ -80,7 +80,7 @@ const Search = ({ navigation }: any) => {
               <View style={styles.resultTextContainer}>
                 <Text style={styles.resultTitle}>{item.eventName}</Text>
                 <Text numberOfLines={2} style={styles.resultContent}>
-                  {item.eventDescription}
+                  {item.description}
                 </Text>
               </View>
             </View>
@@ -96,7 +96,7 @@ export default Search;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     padding: 10,
   },
   searchButton: {
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   resultItem: {
     flexDirection: "row",
-    backgroundColor: "#F0F4FF",
+    backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   errorMessageContainer: {
-    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",

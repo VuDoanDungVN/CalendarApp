@@ -16,35 +16,41 @@ export default function DetailScreen({ route, navigation }: any) {
   const handleInterested = () => {
     setInterested((prevInterested) => prevInterested + 1);
 
-    if (item.date) {
-      // Kiểm tra nếu item.date tồn tại
-      navigation.navigate("Calendar", { selectedDate: item.date });
-      console.log("Đã truyền ngày sự kiện:", item.date);
-    } else {
-      Alert.alert("エラー", "イベントの日付が無効です。");
-    }
+    // if (item.date) {
+    //   // Kiểm tra nếu item.date tồn tại
+    //   navigation.navigate("Calendar", { selectedDate: item.date });
+    //   console.log("Đã truyền ngày sự kiện:", item.date);
+    // } else {
+    //   Alert.alert("エラー", "イベントの日付が無効です。");
+    // }
   };
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.eventContainer}>
         <View>
-          <Text style={styles.eventTitle}>イベント名 : {item.eventName}</Text>
+          <Text style={styles.eventTitle}>イベント名 : {item.name}</Text>
           <Text style={styles.eventLocation}>場所 : {item.location}</Text>
-          <Text style={styles.eventDate}>日付 : {item.date}</Text>
+          <Text style={styles.eventDate}>日付 : {item.time}</Text>
         </View>
+      </View>
+      <View>
+        <Image
+          source={item.eventImage}
+          style={{ width: "100%", height: 200, borderRadius: 10 }}
+        />
       </View>
       <TouchableOpacity activeOpacity={0.7} onPress={handleInterested}>
         <View style={styles.interestedButton}>
           <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 15 }}>
-            参加
+            参加 ({interested}/100)
           </Text>
         </View>
       </TouchableOpacity>
       <View style={styles.eventCard}>
         <View>
           <Text style={styles.eventLabel}>イベント情報 :</Text>
-          <Text>{item.eventDescription}</Text>
+          <Text>{item.description}</Text>
         </View>
       </View>
       <View style={styles.eventCard}>
