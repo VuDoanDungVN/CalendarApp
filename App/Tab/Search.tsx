@@ -19,7 +19,7 @@ const Search = ({ navigation }: any) => {
   const handleSearch = () => {
     // Bước 3
     if (!searchQuery.trim()) {
-      setErrorMessage("Vui lòng nhập từ khóa tìm kiếm.");
+      setErrorMessage("キーワードで検索してください。sakura");
       setTimeout(() => {
         setErrorMessage("");
         setSearchQuery("");
@@ -35,7 +35,7 @@ const Search = ({ navigation }: any) => {
       );
       setFilteredResults(results);
       if (results.length === 0) {
-        setErrorMessage("Không có kết quả");
+        setErrorMessage("データがありません");
         setTimeout(() => {
           setErrorMessage("");
           setSearchQuery("");
@@ -52,7 +52,7 @@ const Search = ({ navigation }: any) => {
     <ScrollView style={styles.container}>
       <View style={{ backgroundColor: "#F0F4FF", borderRadius: 5 }}>
         <TextInput
-          placeholder="Search..."
+          placeholder="検索..."
           value={searchQuery}
           onChangeText={setSearchQuery}
           onSubmitEditing={handleSearch}
@@ -62,7 +62,7 @@ const Search = ({ navigation }: any) => {
       <TouchableOpacity onPress={handleSearch}>
         <View style={styles.searchButton}>
           <Text style={styles.searchButtonText}>
-            {isLoading ? "Searching..." : "Search"}
+            {isLoading ? "検索中..." : "検索"}
           </Text>
         </View>
       </TouchableOpacity>
@@ -70,7 +70,7 @@ const Search = ({ navigation }: any) => {
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       </View>
       <View style={styles.resultsContainer}>
-        {filteredResults.slice(0, 5).map((item, index) => (
+        {filteredResults.slice(0, 10).map((item, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => navigation.navigate("DetailScreen", { item })}
@@ -87,13 +87,6 @@ const Search = ({ navigation }: any) => {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity>
-        <View style={styles.searchButton}>
-          <Text style={styles.searchButtonText}>
-            {isLoading ? "Loading..." : "Show all"}
-          </Text>
-        </View>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
