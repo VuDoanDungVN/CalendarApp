@@ -31,7 +31,6 @@ const HomeScreen = ({ navigation }: any) => {
     auth
       .signOut()
       .then(() => {
-        Alert.alert("Logout", "Bạn đã đăng xuất.");
         navigation.replace("LoginScreen");
       })
       .catch((error) => {
@@ -54,7 +53,7 @@ const HomeScreen = ({ navigation }: any) => {
               ellipsizeMode="tail"
               style={styles.sliderContent}
             >
-              {item.eventDescription}
+              {item.description}
             </Text>
           </View>
         </View>
@@ -76,7 +75,9 @@ const HomeScreen = ({ navigation }: any) => {
               <TouchableOpacity
                 key={index}
                 onPress={() =>
-                  navigation.navigate("Categories", { categories })
+                  navigation.navigate("Categories", {
+                    categories: categories.categories,
+                  })
                 }
               >
                 <View style={styles.categoriesContainer}>
@@ -93,7 +94,7 @@ const HomeScreen = ({ navigation }: any) => {
           </ScrollView>
           <View style={styles.recentActivityContainer}>
             <Text style={styles.recentActivityText}>最近の活動</Text>
-            <Text style={styles.showAllText}>すべて</Text>
+            {/* <Text style={styles.showAllText}>すべて</Text> */}
           </View>
           <View style={styles.popularSection}>
             <Carousel
@@ -117,9 +118,11 @@ const HomeScreen = ({ navigation }: any) => {
           </View>
           <View style={styles.recentActivityContainer}>
             <Text style={styles.recentActivityText}>注目記事</Text>
-            <Text style={styles.showAllText}>すべて</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("ListScreen")}>
+              <Text style={styles.showAllText}>すべて</Text>
+            </TouchableOpacity>
           </View>
-          {ContentData.map((item, index) => (
+          {ContentData.slice(0, 3).map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate("DetailScreen", { item })}
@@ -138,14 +141,14 @@ const HomeScreen = ({ navigation }: any) => {
                       numberOfLines={2}
                       style={styles.featuredArticleDescription}
                     >
-                      {item.eventDescription}
+                      {item.description}
                     </Text>
                     <View style={styles.featuredArticleFooter}>
                       <Text style={styles.featuredArticleAuthor}>
                         {item.author}
                       </Text>
                       <Text style={styles.featuredArticleDate}>
-                        {item.date}
+                        {item.time} {item.date}
                       </Text>
                     </View>
                   </View>
@@ -153,15 +156,6 @@ const HomeScreen = ({ navigation }: any) => {
               </View>
             </TouchableOpacity>
           ))}
-
-          <View>
-            <TouchableOpacity
-              style={styles.logoutButton}
-              onPress={handleLogout}
-            >
-              <Text style={styles.logoutButtonText}>Logout</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </ScrollView>
     </>
@@ -173,7 +167,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     padding: 10,
   },
   titleCustomer: {
@@ -182,7 +176,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   categoriesContainer: {
-    backgroundColor: "#F0F4FF",
+    backgroundColor: "#fff",
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 5,
@@ -261,7 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
   },
   featuredArticleContainer: {
-    backgroundColor: "#F0F4FF",
+    backgroundColor: "#fff",
     padding: 10,
     marginVertical: 5,
     borderRadius: 10,

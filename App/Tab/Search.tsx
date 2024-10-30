@@ -15,15 +15,16 @@ const Search = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // Bước 1
   const [filteredResults, setFilteredResults] = useState(ContentData); // Bước 2
-
+  const [hasSearched, setHasSearched] = useState(false);
   const handleSearch = () => {
     // Bước 3
     if (!searchQuery.trim()) {
-      setErrorMessage("キーワードで検索してください。sakura");
+      setErrorMessage("キーワードで検索してください。");
       setTimeout(() => {
         setErrorMessage("");
         setSearchQuery("");
         setFilteredResults(ContentData);
+        setHasSearched(false);
       }, 5000);
       return;
     }
@@ -34,12 +35,14 @@ const Search = ({ navigation }: any) => {
         item.eventName.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredResults(results);
+      setHasSearched(true);
       if (results.length === 0) {
         setErrorMessage("データがありません");
         setTimeout(() => {
           setErrorMessage("");
           setSearchQuery("");
           setFilteredResults(ContentData);
+          setHasSearched(false);
         }, 5000);
       } else {
         setErrorMessage("");
@@ -50,11 +53,14 @@ const Search = ({ navigation }: any) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{ backgroundColor: "#F0F4FF", borderRadius: 5 }}>
+      <View style={{ backgroundColor: "#fff", borderRadius: 5 }}>
         <TextInput
           placeholder="検索..."
           value={searchQuery}
-          onChangeText={setSearchQuery}
+          onChangeText={(text) => {
+            setSearchQuery(text);
+            setHasSearched(false);
+          }}
           onSubmitEditing={handleSearch}
           style={{ flex: 1, paddingVertical: 15, paddingHorizontal: 10 }}
         />
@@ -69,24 +75,26 @@ const Search = ({ navigation }: any) => {
       <View style={styles.errorMessageContainer}>
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       </View>
-      <View style={styles.resultsContainer}>
-        {filteredResults.slice(0, 10).map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => navigation.navigate("DetailScreen", { item })}
-          >
-            <View key={index} style={styles.resultItem}>
-              <Image source={item.eventImage} style={styles.resultImage} />
-              <View style={styles.resultTextContainer}>
-                <Text style={styles.resultTitle}>{item.eventName}</Text>
-                <Text numberOfLines={2} style={styles.resultContent}>
-                  {item.eventDescription}
-                </Text>
+      {hasSearched && (
+        <View style={styles.resultsContainer}>
+          {filteredResults.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => navigation.navigate("DetailScreen", { item })}
+            >
+              <View key={index} style={styles.resultItem}>
+                <Image source={item.eventImage} style={styles.resultImage} />
+                <View style={styles.resultTextContainer}>
+                  <Text style={styles.resultTitle}>{item.eventName}</Text>
+                  <Text numberOfLines={2} style={styles.resultContent}>
+                    {item.description}
+                  </Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -96,7 +104,7 @@ export default Search;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     padding: 10,
   },
   searchButton: {
@@ -116,7 +124,7 @@ const styles = StyleSheet.create({
   },
   resultItem: {
     flexDirection: "row",
-    backgroundColor: "#F0F4FF",
+    backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
@@ -140,7 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   errorMessageContainer: {
-    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",

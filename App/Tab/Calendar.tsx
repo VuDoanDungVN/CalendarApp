@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, StyleSheet, RefreshControl } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  RefreshControl,
+  TouchableOpacity,
+} from "react-native";
 import { Agenda } from "react-native-calendars";
 import { useFocusEffect } from "@react-navigation/native";
 import { ContentData } from "../Data/DataList";
@@ -9,14 +15,18 @@ interface AgendaItem {
   description: string;
   time: string;
   location: string;
-  tickets: string;
+  eventImage: string;
+  ticketsGeneralAdmission: string;
+  ticketsChildren: string;
+  howToGetThere: string;
+  additionalInfo: string;
 }
 
 interface AgendaItems {
   [key: string]: AgendaItem[];
 }
 
-const CalendarScreen = ({ route }: any) => {
+const CalendarScreen = ({ route, navigation }: any) => {
   const { selectedDate: initialSelectedDate } = route.params || {};
   const [items, setItems] = useState<AgendaItems>({});
   const [selectedDate, setSelectedDate] = useState(
@@ -25,11 +35,17 @@ const CalendarScreen = ({ route }: any) => {
   const [markedDates, setMarkedDates] = useState<{ [key: string]: any }>({});
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  const loadedMonths = new Set();
+
   useEffect(() => {
     if (initialSelectedDate) {
       onDayPress({ dateString: initialSelectedDate });
     } else {
-      loadItemsForMonth(new Date());
+      const currentDate = new Date();
+      loadItemsForMonth({
+        year: currentDate.getFullYear(),
+        month: currentDate.getMonth() + 1,
+      });
     }
   }, [initialSelectedDate]);
 
@@ -47,19 +63,23 @@ const CalendarScreen = ({ route }: any) => {
   useFocusEffect(
     useCallback(() => {
       if (!initialSelectedDate) {
-        loadItemsForMonth(new Date());
+        const currentDate = new Date();
+        loadItemsForMonth({
+          year: currentDate.getFullYear(),
+          month: currentDate.getMonth() + 1,
+        });
       }
     }, [initialSelectedDate])
   );
 
   const loadItemsForMonth = (month: any) => {
+    const monthKey = `${month.year}-${month.month}`;
+    if (loadedMonths.has(monthKey)) return;
+
+    loadedMonths.add(monthKey);
+
     const startOfMonth = new Date(month.year, month.month - 1, 1);
     const endOfMonth = new Date(month.year, month.month, 0);
-    const monthKey = `${month.year}-${month.month}`; // Sử dụng monthKey để đánh dấu tháng đã tải dữ liệu
-
-    // Nếu tháng đã có dữ liệu, không tải lại
-    if (items[monthKey]) return;
-
     const today = new Date().toISOString().split("T")[0];
     const newItems: AgendaItems = { ...items };
 
@@ -76,16 +96,19 @@ const CalendarScreen = ({ route }: any) => {
         ) {
           newItems[dateKey].push({
             name: event.eventName,
-            description: event.eventDescription,
+            description: event.description,
             time: event.time,
+            eventImage: event.eventImage,
             location: event.location,
-            tickets: event.ticketsGeneralAdmission,
+            ticketsGeneralAdmission: event.ticketsGeneralAdmission,
+            ticketsChildren: event.ticketsChildren,
+            howToGetThere: event.howToGetThere,
+            additionalInfo: event.additionalInfo,
           });
         }
       }
     });
 
-    // Thêm các ngày trống trong tháng
     for (let d = startOfMonth; d <= endOfMonth; d.setDate(d.getDate() + 1)) {
       const dateKey = d.toISOString().split("T")[0];
       if (!newItems[dateKey]) {
@@ -99,44 +122,102 @@ const CalendarScreen = ({ route }: any) => {
   const onDayPress = (day: any) => {
     if (day.dateString !== selectedDate) {
       setSelectedDate(day.dateString);
-      const selectedDayEvents = ContentData.filter(
-        (event) => event.date === day.dateString
-      ).map((event) => ({
-        name: event.eventName,
-        description: event.eventDescription,
-        time: event.time,
-        location: event.location,
-        tickets: event.ticketsGeneralAdmission,
-      }));
 
-      setItems({ [day.dateString]: selectedDayEvents });
+      const selectedDate = new Date(day.dateString);
+      const endOfNextMonth = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth() + 2,
+        0
+      );
+      const newItems: AgendaItems = { ...items };
+
+      ContentData.forEach((event) => {
+        const eventDate = new Date(event.date);
+
+        if (eventDate >= selectedDate && eventDate <= endOfNextMonth) {
+          const dateKey = event.date;
+
+          if (!newItems[dateKey]) {
+            newItems[dateKey] = [];
+          }
+
+          if (
+            !newItems[dateKey].some(
+              (item) =>
+                item.name === event.eventName && item.time === event.time
+            )
+          ) {
+            newItems[dateKey].push({
+              name: event.eventName,
+              description: event.description,
+              time: event.time,
+              eventImage: event.eventImage,
+              location: event.location,
+              ticketsGeneralAdmission: event.ticketsGeneralAdmission,
+              ticketsChildren: event.ticketsChildren,
+              howToGetThere: event.howToGetThere,
+              additionalInfo: event.additionalInfo,
+            });
+          }
+        }
+      });
+
+      for (
+        let d = new Date(day.dateString);
+        d <= endOfNextMonth;
+        d.setDate(d.getDate() + 1)
+      ) {
+        const dateKey = d.toISOString().split("T")[0];
+        if (!newItems[dateKey]) {
+          newItems[dateKey] = [];
+        }
+      }
+
+      setItems(newItems);
     }
   };
 
   const renderItem = (item: AgendaItem) => {
     return (
-      <View style={styles.item}>
-        <Text style={styles.itemText}>{item.name}</Text>
-        <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
-          {item.description}
-        </Text>
-        <Text style={styles.itemText}>{item.time}</Text>
-        <Text style={styles.itemText}>{item.location}</Text>
-      </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("DetailScreen", { item })}
+      >
+        <View style={styles.item}>
+          <Text style={styles.itemText}>{item.name}</Text>
+          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.itemText}>
+            {item.description}
+          </Text>
+          <Text style={styles.itemImage}>{item.eventImage}</Text>
+          <Text style={styles.itemTime}>{item.time}</Text>
+          <Text style={styles.itemText}>{item.location}</Text>
+          <Text style={styles.itemText}>{item.ticketsGeneralAdmission}</Text>
+          <Text style={styles.itemText}>{item.ticketsChildren}</Text>
+          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.itemText}>
+            {item.howToGetThere}
+          </Text>
+          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.itemText}>
+            {item.additionalInfo}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
   const renderEmptyDate = () => {
     return (
       <View style={styles.emptyDate}>
-        <Text>データがありません</Text>
+        <Text>イベントがありません</Text>
       </View>
     );
   };
 
   const handleRefresh = () => {
     setIsRefreshing(true);
-    loadItemsForMonth(new Date());
+    const currentDate = new Date();
+    loadItemsForMonth({
+      year: currentDate.getFullYear(),
+      month: currentDate.getMonth() + 1,
+    });
     setIsRefreshing(false);
   };
 
@@ -164,10 +245,7 @@ const CalendarScreen = ({ route }: any) => {
           agendaDayNumColor: "#456FE8",
           agendaTodayColor: "#456FE8",
           agendaKnobColor: "#456FE8",
-          backgroundColor: "#ccc",
-          borderRadius: 15,
-          borderWidth: 0.5,
-          borderColor: "#ccc",
+          backgroundColor: "#f0f0f0",
         }}
       />
     </View>
@@ -188,6 +266,13 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   itemText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  itemImage: {
+    opacity: 0,
+  },
+  itemTime: {
     fontSize: 16,
     color: "#333",
   },

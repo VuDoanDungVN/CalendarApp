@@ -1,13 +1,42 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import { ContentData } from "../Data/DataList";
 
-const Categories = ({ route }: any) => {
-  const { categories } = route.params;
+const CategoriesScreen = ({ route }: any) => {
+  const { category } = route.params;
+
   return (
-    <View>
-      <Text>{categories.categories}</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>カテゴリー名: {category.categories}</Text>
+      <View style={styles.eventItem}>
+        <Text style={styles.eventTitle}>{category.name}</Text>
+        <Text>{category.categories}</Text> {/* Đảm bảo nằm trong <Text> */}
+      </View>
     </View>
   );
 };
 
-export default Categories;
+export default CategoriesScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#f0f0f0",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  eventItem: {
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  eventTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
