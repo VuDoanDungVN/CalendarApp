@@ -72,7 +72,7 @@ export const ContentData = [
   {
     categories: "Concert",
     author: "管理者",
-    eventImage: require("../../assets/Content/6.jpg"),
+    eventImage: require("../../assets/Content/8.jpg"),
     eventName: "秋の音楽コンサート",
     description:
       "秋の夜長を彩る音楽コンサートでは、世界的に有名な交響楽団が登場し、モーツァルトやベートーヴェンといったクラシックの名曲を演奏します。コンサートホールはその音響設計で評価が高く、まるで音に包まれるような体験ができます。音楽愛好者はもちろん、初心者でも楽しめる選曲で構成されており、一夜限りの特別なひとときが過ごせます。",

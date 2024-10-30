@@ -122,7 +122,7 @@ const HomeScreen = ({ navigation }: any) => {
               <Text style={styles.showAllText}>すべて</Text>
             </TouchableOpacity>
           </View>
-          {ContentData.map((item, index) => (
+          {ContentData.slice(0, 3).map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate("DetailScreen", { item })}
@@ -156,15 +156,6 @@ const HomeScreen = ({ navigation }: any) => {
               </View>
             </TouchableOpacity>
           ))}
-
-          <View>
-            <TouchableOpacity
-              style={styles.logoutButton}
-              onPress={handleLogout}
-            >
-              <Text style={styles.logoutButtonText}>Logout</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </ScrollView>
     </>

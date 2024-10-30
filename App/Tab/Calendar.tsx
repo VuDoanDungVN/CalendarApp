@@ -206,7 +206,7 @@ const CalendarScreen = ({ route, navigation }: any) => {
   const renderEmptyDate = () => {
     return (
       <View style={styles.emptyDate}>
-        <Text>データがありません</Text>
+        <Text>イベントがありません</Text>
       </View>
     );
   };

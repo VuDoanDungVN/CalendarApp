@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { ContentData } from "../Data/DataList";
 
-const CategoriesScreen = ({ route }) => {
+const CategoriesScreen = ({ route }: any) => {
   const { category } = route.params;
 
   return (

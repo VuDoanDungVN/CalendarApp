@@ -21,13 +21,13 @@ const LoginScreen = ({ navigation }: any) => {
     // Kiểm tra định dạng email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setErrorMessage("Email không đúng định dạng.");
+      setErrorMessage("メールアドレスの形式が正しくありません。");
       setTimeout(() => setErrorMessage(""), 5000);
       return;
     }
     // Bước 5: Kiểm tra thông tin đăng nhập
     if (!email || !password) {
-      setErrorMessage("Bạn chưa điền đầy đủ thông tin.");
+      setErrorMessage("必須情報が入力されていません。");
       setTimeout(() => setErrorMessage(""), 5000);
       return;
     }
@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }: any) => {
           );
           navigation.replace("MainTabs"); // Chuyển tới màn hình Main Tabs để hiển thị Tab và HomeScreen khi đăng nhập thành công
         } else {
-          setErrorMessage("Email của bạn chưa được xác thực.");
+          setErrorMessage("メールアドレスが確認されていません。");
           setTimeout(() => setErrorMessage(""), 5000);
           // Sign out the user to prevent unauthorized access
           auth.signOut(); // Đăng xuất nếu email chưa xác thực
@@ -56,18 +56,16 @@ const LoginScreen = ({ navigation }: any) => {
       .catch((error) => {
         // Xử lý lỗi từ Firebase và hiển thị thông báo
         if (error.code === "auth/invalid-email") {
-          setErrorMessage("Email không hợp lệ.");
+          setErrorMessage("無効なメールアドレスです。");
           setTimeout(() => setErrorMessage(""), 3000);
         } else if (error.code === "auth/wrong-password") {
-          setErrorMessage("Mật khẩu không chính xác.");
+          setErrorMessage("パスワードが正しくありません.");
           setTimeout(() => setErrorMessage(""), 3000);
         } else if (error.code === "auth/user-not-found") {
-          setErrorMessage("Email hoặc mật khẩu không chính xác.");
+          setErrorMessage("メールアドレスまたはパスワードが正しくありません。");
           setTimeout(() => setErrorMessage(""), 3000);
         } else {
-          setErrorMessage(
-            "Tài khoản của bạn đã bị band vì hành vi không chuẩn mực. "
-          );
+          setErrorMessage("不適切な行為により、アカウントが停止されました。");
           setTimeout(() => setErrorMessage(""), 5000);
         }
         setIsLoading(false); // Kết thúc trạng thái tải
@@ -81,10 +79,12 @@ const LoginScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Login</Text>
+        <Text style={styles.title}>ログイン</Text>
       </View>
       <View>
-        <Text style={styles.titleLogin}>Please sign in to continue.</Text>
+        <Text style={styles.titleLogin}>
+          続行するにはログインしてください。
+        </Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
@@ -95,7 +95,7 @@ const LoginScreen = ({ navigation }: any) => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Email"
+            placeholder="メール"
             value={email}
             onChangeText={setEmail}
             style={styles.textInput}
@@ -109,7 +109,7 @@ const LoginScreen = ({ navigation }: any) => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Password"
+            placeholder="パスワード"
             value={password}
             onChangeText={setPassword}
             onSubmitEditing={handleLogin}
@@ -129,15 +129,15 @@ const LoginScreen = ({ navigation }: any) => {
             onPress={() => navigation.navigate("RegisterScreen")}
           >
             <Text style={styles.registerText}>
-              Don't have an account?{" "}
-              <Text style={styles.registerLink}>Sign up</Text>
+              アカウントをお持ちではありませんか？{" "}
+              <Text style={styles.registerLink}>新規登録</Text>
             </Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleLogin}>
           <View style={styles.loginButton}>
             <Text style={styles.loginButtonText}>
-              {isLoading ? "Signing in..." : "Login"}
+              {isLoading ? "ログイン中..." : "ログイン"}
             </Text>
           </View>
         </TouchableOpacity>

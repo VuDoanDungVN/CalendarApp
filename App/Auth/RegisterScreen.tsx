@@ -29,8 +29,8 @@ const RegisterScreen = ({ navigation }: any) => {
     try {
       await sendEmailVerification(user);
       Alert.alert(
-        "Xác Thực Email",
-        "Đã gửi mail xác thực. Vui lòng kiểm tra email."
+        "メール認証",
+        "認証メールを送信しました。メールを確認してください。"
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -45,22 +45,22 @@ const RegisterScreen = ({ navigation }: any) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email || !password || !confirmPassword) {
-      setErrorMessage("Bạn chưa điền đầy đủ thông tin.");
+      setErrorMessage("必要な情報がすべて入力されていません。");
       return;
     }
 
     if (!emailRegex.test(email)) {
-      setErrorMessage("Email không đúng định dạng.");
+      setErrorMessage("メールアドレスの形式が正しくありません。");
       return;
     }
 
     if (password.length < 6) {
-      setErrorMessage("Mật khẩu cần ít nhất 6 ký tự.");
+      setErrorMessage("パスワードは6文字以上である必要があります。");
       return;
     }
 
     if (password !== confirmPassword) {
-      setErrorMessage("Mật khẩu không khớp.");
+      setErrorMessage("パスワードが一致しません。");
       return;
     }
 
@@ -112,7 +112,7 @@ const RegisterScreen = ({ navigation }: any) => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Full Name"
+            placeholder="名前"
             value={name}
             onChangeText={setName}
             style={styles.textInput}
@@ -126,7 +126,7 @@ const RegisterScreen = ({ navigation }: any) => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Email"
+            placeholder="メール"
             value={email}
             onChangeText={setEmail}
             style={styles.textInput}
@@ -140,7 +140,7 @@ const RegisterScreen = ({ navigation }: any) => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Password"
+            placeholder="パスワード"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!isPasswordVisible} // Bổ sung thuộc tính secureTextEntry để ẩn mật khẩu
@@ -162,7 +162,7 @@ const RegisterScreen = ({ navigation }: any) => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Comfirm password"
+            placeholder="パスワードの確認"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry={!isPasswordVisible} // Bổ sung thuộc tính secureTextEntry để ẩn mật khẩu
@@ -179,8 +179,8 @@ const RegisterScreen = ({ navigation }: any) => {
         <View style={styles.registerContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
             <Text style={styles.registerText}>
-              You already have an account?{" "}
-              <Text style={styles.registerLink}>Sign in</Text>
+              すでにアカウントをお持ちですか？{" "}
+              <Text style={styles.registerLink}>サインイン</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -189,7 +189,7 @@ const RegisterScreen = ({ navigation }: any) => {
           <TouchableOpacity onPress={handleSignUp} disabled={isLoading}>
             <View style={styles.signUpButton}>
               <Text style={styles.signUpButtonText}>
-                {isLoading ? "Registering..." : "Register"}
+                {isLoading ? "新規登録中..." : "登録"}
               </Text>
             </View>
           </TouchableOpacity>
