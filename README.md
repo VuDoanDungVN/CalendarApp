@@ -1,8 +1,8 @@
-# CalendarApp
+#OkinawaEventApp
 
 ## 紹介
 
-CalendarApp は、React Native で開発されたモバイルアプリケーションで、ユーザーがイベントや日々の活動を簡単かつ便利に管理および追跡できるようにします。アプリは、ログイン、登録、イベントリストの表示、イベントの詳細、イベントの検索、個人プロフィールの管理など、多くの便利な機能を提供します。
+#OkinawaEventApp は、React Native で開発されたモバイルアプリケーションで、ユーザーがイベントや日々の活動を簡単かつ便利に管理および追跡できるようにします。アプリは、ログイン、登録、イベントリストの表示、イベントの詳細、イベントの検索、個人プロフィールの管理など、多くの便利な機能を提供します。
 
 ## 機能
 
@@ -13,13 +13,6 @@ CalendarApp は、React Native で開発されたモバイルアプリケーシ�
 - **イベントの検索**: キーワードでイベントを検索できます。
 - **カレンダー**: 日ごとのイベントを表示し、ユーザーが日々の活動を簡単に追跡できるようにします。
 - **個人プロフィール**: ユーザーの個人情報とプロフィール画像を管理します。
-
-## ディレクトリ構造
-
-GitHub Copilot
-Dưới đây là mô tả cho ứng dụng CalendarApp bằng tiếng Nhật để hiển thị trong file README.md:
-
-.expo/ devices.json README.md settings.json .gitignore .vscode/ .react/ App/ Auth/ LoginScreen.tsx RegisterScreen.tsx Components/ FirstScreen.tsx HomeScreen.tsx ListScreen.tsx Content/ Categories.tsx DetailScreen.tsx Data/ DataList.tsx LocaleConfig.tsx Location/ CategoryScreen.tsx Tab/ Calendar.tsx Location.tsx Profile.tsx Search.tsx app.json App.tsx assets/ Content/ icon/ slide/ babel.config.js firebase.tsx package.json README.md tsconfig.json
 
 ## インストール
 
