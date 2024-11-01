@@ -1,7 +1,14 @@
 import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
+import { ContentData } from "../Data/DataList";
+export default function Location({ navigation }: any) {
+  const handleNavigateToCategory = (category: string) => {
+    const filteredData = ContentData.filter(
+      (item) => item.categories === category
+    );
+    navigation.navigate("CategoryScreen", { filteredData });
+  };
 
-export default function Location() {
   return (
     <View style={styles.main}>
       <View>
@@ -10,7 +17,9 @@ export default function Location() {
           style={styles.mapImage}
         />
         <View style={styles.kunigami}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleNavigateToCategory("Kunigami")}
+          >
             <Image
               source={require("../../assets/slide/Kunigami.png")}
               style={styles.locationImage}
@@ -18,7 +27,7 @@ export default function Location() {
           </TouchableOpacity>
         </View>
         <View style={styles.nago}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigateToCategory("Nago")}>
             <Image
               source={require("../../assets/slide/nago.png")}
               style={styles.locationImage}
@@ -26,7 +35,7 @@ export default function Location() {
           </TouchableOpacity>
         </View>
         <View style={styles.onna}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigateToCategory("Onna")}>
             <Image
               source={require("../../assets/slide/onna.png")}
               style={styles.locationImage}
@@ -34,7 +43,7 @@ export default function Location() {
           </TouchableOpacity>
         </View>
         <View style={styles.naha}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigateToCategory("Naha")}>
             <Image
               source={require("../../assets/slide/naha.png")}
               style={styles.locationImage}
@@ -42,7 +51,7 @@ export default function Location() {
           </TouchableOpacity>
         </View>
         <View style={styles.zamami}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigateToCategory("Zamami")}>
             <Image
               source={require("../../assets/slide/zamami.png")}
               style={styles.locationImage}
@@ -50,7 +59,9 @@ export default function Location() {
           </TouchableOpacity>
         </View>
         <View style={styles.tokashiki}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleNavigateToCategory("Tokashiki")}
+          >
             <Image
               source={require("../../assets/slide/tokashiki.png")}
               style={styles.locationImage}

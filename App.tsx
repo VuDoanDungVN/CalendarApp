@@ -14,6 +14,7 @@ import Categories from "./App/Content/Categories";
 import CalendarScreen from "./App/Tab/Calendar";
 import ListScreen from "./App/Components/ListScreen";
 import CategoriesScreen from "./App/Content/Categories";
+import CategoryScreen from "./App/Location/CategoryScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -116,6 +117,11 @@ export default function App() {
           name="ListScreen"
           component={ListScreen}
           options={{ title: "すべて", headerBackTitleVisible: false }}
+        />
+        <Stack.Screen
+          name="CategoryScreen"
+          component={CategoryScreen}
+          options={{ title: "イベント情報", headerBackTitleVisible: false }}
         />
         <Stack.Screen
           name="MainTabs"

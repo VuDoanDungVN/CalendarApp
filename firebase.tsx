@@ -3,7 +3,12 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import { getAuth, Auth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc } from "firebase/firestore"; // Import thêm doc và setDoc
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  initializeFirestore,
+} from "firebase/firestore"; // Import thêm doc và setDoc
 import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -29,7 +34,9 @@ const auth = initializeAuth(app, {
 });
 
 // Initialize Firestore
-const db = getFirestore(app);
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
 
 const uploadImage = async (uri: string, userId: string) => {
   try {
