@@ -2,7 +2,7 @@
 
 export const ContentData = [
   {
-    categories: "Festival",
+    categories: "Tokashiki",
     author: "管理者",
     eventImage: require("../../assets/Content/2.jpg"),
     eventName: "ダナン文化祭",
@@ -19,7 +19,7 @@ export const ContentData = [
       "会場には沖縄の名物であるソーキそばやゴーヤチャンプルをはじめとするさまざまな地元料理の屋台が立ち並びます。また、地域の特産品を紹介するブースや、家族向けのアクティビティが充実しており、地元文化を満喫できる内容となっています。このイベントは特に家族連れや、沖縄の文化を知りたい観光客にとって理想的な場所です。",
   },
   {
-    categories: "Exhibition",
+    categories: "Naha",
     author: "管理者",
     eventImage: require("../../assets/Content/3.jpg"),
     eventName: "国際書籍展示会",
@@ -36,7 +36,7 @@ export const ContentData = [
       "会場には沖縄の伝統料理を提供する多くの屋台が並び、地元の味を堪能することができます。特に、ソーキそばやゴーヤチャンプルは人気が高く、現地の味を楽しむには絶好の機会です。このイベントは特に文化に興味がある方や家族連れに最適です。また、記念品として購入できる沖縄特産品の販売ブースも用意されています。",
   },
   {
-    categories: "Festival",
+    categories: "Onna",
     author: "管理者",
     eventImage: require("../../assets/Content/4.jpg"),
     eventName: "桜祭り",
@@ -53,7 +53,7 @@ export const ContentData = [
       "屋台には日本の伝統的なお菓子や料理が並び、特に桜をテーマにしたデザートが注目されています。家族連れや友人同士での参加が多く、賑やかな雰囲気の中で日本の文化に触れることができます。イベント会場には、お土産として日本の工芸品を販売するブースも設置されています。",
   },
   {
-    categories: "Concert",
+    categories: "Nago",
     author: "管理者",
     eventImage: require("../../assets/Content/6.jpg"),
     eventName: "秋の音楽コンサート",
@@ -70,10 +70,10 @@ export const ContentData = [
       "会場の近くには沖縄料理を楽しめるレストランも点在しており、特に音楽を聴いた後に沖縄の味を楽しむことができます。コンサート自体は家族連れから音楽愛好者まで、幅広い年齢層に支持されているため、リラックスした雰囲気で音楽に親しむことができます。",
   },
   {
-    categories: "Concert",
+    categories: "Kunigami",
     author: "管理者",
     eventImage: require("../../assets/Content/8.jpg"),
-    eventName: "秋の音楽コンサート",
+    eventName: "秋の音楽コンサート2",
     description:
       "秋の夜長を彩る音楽コンサートでは、世界的に有名な交響楽団が登場し、モーツァルトやベートーヴェンといったクラシックの名曲を演奏します。コンサートホールはその音響設計で評価が高く、まるで音に包まれるような体験ができます。音楽愛好者はもちろん、初心者でも楽しめる選曲で構成されており、一夜限りの特別なひとときが過ごせます。",
     date: "2024-11-01",
