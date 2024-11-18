@@ -38,6 +38,14 @@ const HomeScreen = ({ navigation }: any) => {
       });
   };
 
+  // Chuyển hướng theo Categories
+  const handleNavigateToCategory = (category: string) => {
+    const filteredData = ContentData.filter(
+      (item) => item.categories === category
+    );
+    navigation.navigate("CategoryScreen", { filteredData });
+  };
+
   // Slider Data
   const _renderItem = ({ item }: any) => {
     return (
@@ -74,11 +82,7 @@ const HomeScreen = ({ navigation }: any) => {
             {ContentData.map((categories, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() =>
-                  navigation.navigate("Categories", {
-                    categories: categories.categories,
-                  })
-                }
+                onPress={() => handleNavigateToCategory(categories.categories)}
               >
                 <View style={styles.categoriesContainer}>
                   <Text
