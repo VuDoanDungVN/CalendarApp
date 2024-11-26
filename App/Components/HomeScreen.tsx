@@ -16,7 +16,7 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 const HomeScreen = ({ navigation }: any) => {
   const { width: screenWidth } = Dimensions.get("window");
   const [user, setUser] = useState<any>(null);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(1);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -109,15 +109,6 @@ const HomeScreen = ({ navigation }: any) => {
               renderItem={_renderItem}
               onSnapToItem={(index) => setActiveSlide(index)}
               contentContainerCustomStyle={styles.carouselContentContainer}
-            />
-            <Pagination
-              dotsLength={ContentData.length}
-              activeDotIndex={activeSlide}
-              containerStyle={styles.paginationContainer}
-              dotStyle={styles.paginationDot}
-              inactiveDotStyle={styles.paginationInactiveDot}
-              inactiveDotOpacity={0.4}
-              inactiveDotScale={0.8}
             />
           </View>
           <View style={styles.recentActivityContainer}>
