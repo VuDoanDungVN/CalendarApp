@@ -27,17 +27,6 @@ const HomeScreen = ({ navigation }: any) => {
     return unsubscribe;
   }, []);
 
-  const handleLogout = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("LoginScreen");
-      })
-      .catch((error) => {
-        Alert.alert("Error", error.message);
-      });
-  };
-
   // Chuyển hướng theo Categories
   const handleNavigateToCategory = (category: string) => {
     const filteredData = ContentData.filter(

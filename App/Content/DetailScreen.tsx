@@ -71,7 +71,7 @@ export default function DetailScreen({ route, navigation }: any) {
             {isEventExpired
               ? "終了"
               : isRegistered
-              ? "Đã đăng ký"
+              ? "参加しました"
               : `参加 (${interestedCount}/100)`}
           </Text>
         </View>
