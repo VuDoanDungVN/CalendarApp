@@ -3211,6 +3211,7 @@ cacache@^18.0.2:
     "@react-native-picker/picker" "^2.9.0"
     "@react-navigation/bottom-tabs" "^7.0.12"
     "@react-navigation/drawer" "^7.0.12"
+    "@react-navigation/elements" "^2.1.6"
     "@react-navigation/native" "^7.0.7"
     "@react-navigation/native-stack" "^7.1.8"
     "@react-navigation/stack" "^6.4.1"
@@ -6245,6 +6246,11 @@ react-native-image-picker@^7.1.2:
   version "7.1.2"
   resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-7.1.2.tgz"
   integrity sha512-b5y5nP60RIPxlAXlptn2QwlIuZWCUDWa/YPUVjgHc0Ih60mRiOg1PSzf0IjHSLeOZShCpirpvSPGnDExIpTRUg==
+
+react-native-image-resizer@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.npmjs.org/react-native-image-resizer/-/react-native-image-resizer-1.4.5.tgz"
+  integrity sha512-33EgL3C9pyvjKpullAB6fWyD5QhoYEpNNB9rxNvUsrpAnL2mHBW7PTrUCCZudJeB6Weg7nbweKrSw1nnto5aqg==
 
 react-native-is-edge-to-edge@^1.1.6:
   version "1.1.6"
