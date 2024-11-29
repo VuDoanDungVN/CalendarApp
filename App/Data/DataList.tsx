@@ -101,4 +101,38 @@ export const ContentData = [
     additionalInfo:
       "フェスティバル会場では地元料理や工芸品の販売も行われます。自然と文化を満喫できるイベントです。",
   },
+  {
+    categories: "Ishigaki",
+    author: "管理者",
+    eventImage: require("../../assets/Content/5.jpg"),
+    eventName: "ホエールウォッチングフェスティバル",
+    description:
+      "ザマミ諸島の周辺海域で開催されるホエールウォッチングイベントです。自然の中でクジラの姿を楽しめます。",
+    date: "2024-12-01",
+    time: "9:00 AM - 3:00 PM",
+    location: "座間味港",
+    ticketsGeneralAdmission: "12000",
+    ticketsChildren: "無料",
+    howToGetThere:
+      "那覇市からフェリーで約1時間で到着できます。港からツアー船に乗り換える形になります。",
+    additionalInfo:
+      "フェスティバル会場では地元料理や工芸品の販売も行われます。自然と文化を満喫できるイベントです。",
+  },
+  {
+    categories: "Miyako",
+    author: "管理者",
+    eventImage: require("../../assets/Content/5.jpg"),
+    eventName: "ホエールウォッチングフェスティバル",
+    description:
+      "ザマミ諸島の周辺海域で開催されるホエールウォッチングイベントです。自然の中でクジラの姿を楽しめます。",
+    date: "2024-12-01",
+    time: "9:00 AM - 3:00 PM",
+    location: "座間味港",
+    ticketsGeneralAdmission: "12000",
+    ticketsChildren: "無料",
+    howToGetThere:
+      "那覇市からフェリーで約1時間で到着できます。港からツアー船に乗り換える形になります。",
+    additionalInfo:
+      "フェスティバル会場では地元料理や工芸品の販売も行われます。自然と文化を満喫できるイベントです。",
+  },
 ];
