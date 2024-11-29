@@ -37,6 +37,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import SettingScreen from "./App/Auth/SettingScreen";
 import EditProfileScreen from "./App/Auth/EditProfile";
 import { ContentData } from "./App/Data/DataList";
+import PrivacyScreen from "./App/Components/Privacy";
 
 type Event = {
   categories: string;
@@ -168,7 +169,7 @@ const CustomDrawerContent = ({ props, navigation }: any) => {
                   onPress={() => navigation.navigate("EditProfileScreen")}
                 >
                   <View style={styles.profileEditProfile}>
-                    <Text style={styles.buttonText}>Show profile</Text>
+                    <Text style={styles.buttonText}>Edit profile</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -185,7 +186,9 @@ const CustomDrawerContent = ({ props, navigation }: any) => {
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PrivacyScreen")}
+          >
             <View style={styles.optionContainer}>
               <View style={styles.iconContainer}>
                 <AntDesign name="lock1" size={24} color="#9da6c2" />
@@ -230,31 +233,48 @@ const ProfileScreenWithDrawer = () => {
     <Drawer.Navigator
       initialRouteName="HomeScreen"
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         drawerStyle: {
           backgroundColor: "#f0f0f0",
         },
-      }}
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+            <Ionicons
+              name="menu"
+              size={28}
+              color="#5b67ee"
+              style={{ marginHorizontal: 5 }}
+            />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => alert("Notification button pressed")}
+          >
+            <MaterialIcons
+              name="notifications"
+              size={28}
+              color="#5b67ee"
+              style={{ marginHorizontal: 5 }}
+            />
+            <View
+              style={{
+                backgroundColor: "#c02727",
+                borderRadius: 50,
+                width: 10,
+                height: 10,
+                position: "absolute",
+                right: 7,
+              }}
+            ></View>
+          </TouchableOpacity>
+        ),
+      })}
     >
       <Drawer.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={{ title: "ホーム" }}
-      />
-      <Drawer.Screen
-        name="Search"
-        component={Search}
-        options={{ title: "検索" }}
-      />
-      <Drawer.Screen
-        name="Location"
-        component={Location}
-        options={{ title: "地図" }}
-      />
-      <Drawer.Screen
-        name="Calendar"
-        component={CalendarScreen}
-        options={{ title: "カレンダー" }}
       />
     </Drawer.Navigator>
   );
@@ -357,14 +377,14 @@ export default function App() {
         <Stack.Screen
           name="CategoryScreen"
           component={CategoryScreen}
-          options={{ title: "イベント情報", headerBackTitle: "" }}
+          options={{ title: "イベント情報", headerBackTitle: "戻る" }}
         />
         <Stack.Screen
           name="MainTabs"
           component={MainTabs}
           options={{
             headerShown: false,
-            headerBackTitle: "",
+            headerBackTitle: "戻る",
             gestureEnabled: false,
           }}
         />
@@ -377,6 +397,14 @@ export default function App() {
           name="EditProfileScreen"
           component={EditProfileScreen}
           options={{ title: "プロフィール", headerBackTitle: "戻る" }}
+        />
+        <Stack.Screen
+          name="PrivacyScreen"
+          component={PrivacyScreen}
+          options={{
+            headerBackTitle: "戻る",
+            title: "Privacy",
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

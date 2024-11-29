@@ -24,12 +24,12 @@ export default function DetailScreen({ route, navigation }: any) {
       return;
     }
     if (isRegistered) {
-      Alert.alert("通知", "Bạn đã đăng ký!");
+      Alert.alert("通知", "参加しました");
       return;
     }
     setIsRegistered(true);
     setInterestedCount((prevCount) => prevCount + 1);
-    Alert.alert("通知", "Bạn đã đăng ký!");
+    Alert.alert("通知", "参加しました");
   };
 
   return (
@@ -58,9 +58,6 @@ export default function DetailScreen({ route, navigation }: any) {
             (isEventExpired || isRegistered) && styles.disabledButton,
           ]}
         >
-          {isEventExpired ? (
-            <AntDesign name="close" size={24} color="red" />
-          ) : null}
           <Text
             style={{
               color: "#fff",

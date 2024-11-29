@@ -68,6 +68,22 @@ export default function Location({ navigation }: any) {
             />
           </TouchableOpacity>
         </View>
+        <View style={styles.miyako}>
+          <TouchableOpacity onPress={() => handleNavigateToCategory("Miyako")}>
+            <Image
+              source={require("../../assets/slide/miyako.png")}
+              style={styles.locationImage}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.ishigaki}>
+          <TouchableOpacity onPress={() => handleNavigateToCategory("Miyako")}>
+            <Image
+              source={require("../../assets/slide/ishigaki.png")}
+              style={styles.locationImage}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -115,5 +131,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 470,
     right: 40,
+  },
+  miyako: {
+    position: "absolute",
+    top: 510,
+    right: 180,
+  },
+  ishigaki: {
+    position: "absolute",
+    top: 555,
+    right: 100,
   },
 });
