@@ -11,15 +11,21 @@ import { useFocusEffect } from "@react-navigation/native";
 import { ContentData } from "../Data/DataList";
 
 interface AgendaItem {
-  name: string;
+  categories: string;
+  author: string;
+  eventName: string;
   description: string;
   time: string;
+  date: string;
   location: string;
   eventImage: string;
   ticketsGeneralAdmission: string;
   ticketsChildren: string;
   howToGetThere: string;
   additionalInfo: string;
+  address: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface AgendaItems {
@@ -91,11 +97,12 @@ const CalendarScreen = ({ route, navigation }: any) => {
         }
         if (
           !newItems[dateKey].some(
-            (item) => item.name === event.eventName && item.time === event.time
+            (item) =>
+              item.eventName === event.eventName && item.time === event.time
           )
         ) {
           newItems[dateKey].push({
-            name: event.eventName,
+            eventName: event.eventName,
             description: event.description,
             time: event.time,
             eventImage: event.eventImage,
@@ -104,6 +111,12 @@ const CalendarScreen = ({ route, navigation }: any) => {
             ticketsChildren: event.ticketsChildren,
             howToGetThere: event.howToGetThere,
             additionalInfo: event.additionalInfo,
+            address: event.address,
+            author: event.author,
+            categories: event.categories,
+            date: event.date,
+            latitude: event.latitude,
+            longitude: event.longitude,
           });
         }
       }
@@ -144,11 +157,11 @@ const CalendarScreen = ({ route, navigation }: any) => {
           if (
             !newItems[dateKey].some(
               (item) =>
-                item.name === event.eventName && item.time === event.time
+                item.eventName === event.eventName && item.time === event.time
             )
           ) {
             newItems[dateKey].push({
-              name: event.eventName,
+              eventName: event.eventName,
               description: event.description,
               time: event.time,
               eventImage: event.eventImage,
@@ -157,6 +170,12 @@ const CalendarScreen = ({ route, navigation }: any) => {
               ticketsChildren: event.ticketsChildren,
               howToGetThere: event.howToGetThere,
               additionalInfo: event.additionalInfo,
+              address: event.address,
+              author: event.author,
+              categories: event.categories,
+              date: event.date,
+              latitude: event.latitude,
+              longitude: event.longitude,
             });
           }
         }
@@ -183,21 +202,14 @@ const CalendarScreen = ({ route, navigation }: any) => {
         onPress={() => navigation.navigate("DetailScreen", { item })}
       >
         <View style={styles.item}>
-          <Text style={styles.itemText}>{item.name}</Text>
-          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.itemText}>
-            {item.description}
+          <Text style={styles.itemText} numberOfLines={1} ellipsizeMode="tail">
+            {item.eventName}
           </Text>
-          <Text style={styles.itemImage}>{item.eventImage}</Text>
-          <Text style={styles.itemTime}>{item.time}</Text>
-          <Text style={styles.itemText}>{item.location}</Text>
-          <Text style={styles.itemText}>{item.ticketsGeneralAdmission}</Text>
-          <Text style={styles.itemText}>{item.ticketsChildren}</Text>
-          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.itemText}>
-            {item.howToGetThere}
+          <Text numberOfLines={1} ellipsizeMode="tail">
+            場所 : {item.address}
           </Text>
-          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.itemText}>
-            {item.additionalInfo}
-          </Text>
+          <Text>日付 : {item.date}</Text>
+          <Text>時間 : {item.time}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -264,13 +276,17 @@ const styles = StyleSheet.create({
     padding: 20,
     marginRight: 10,
     marginTop: 17,
+    gap: 5,
   },
   itemText: {
-    fontSize: 16,
-    color: "#333",
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#1565C0",
   },
   itemImage: {
+    flex: 1,
     opacity: 0,
+    borderRadius: 10,
   },
   itemTime: {
     fontSize: 16,

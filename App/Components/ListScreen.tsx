@@ -27,7 +27,11 @@ const ListScreen = ({ navigation }: any) => {
                   style={styles.featuredArticleImage}
                 />
                 <View style={styles.featuredArticleTextContainer}>
-                  <Text style={styles.featuredArticleTitle}>
+                  <Text
+                    style={styles.featuredArticleTitle}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
                     {item.eventName}
                   </Text>
                   <Text
@@ -40,9 +44,7 @@ const ListScreen = ({ navigation }: any) => {
                     <Text style={styles.featuredArticleAuthor}>
                       {item.author}
                     </Text>
-                    <Text style={styles.featuredArticleDate}>
-                      {item.time} {item.date}
-                    </Text>
+                    <Text style={styles.featuredArticleDate}>{item.date}</Text>
                   </View>
                 </View>
               </View>

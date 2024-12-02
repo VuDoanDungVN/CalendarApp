@@ -229,6 +229,7 @@ const CustomDrawerContent = ({ props, navigation }: any) => {
 
 // Drawer Profile and Menu
 const ProfileScreenWithDrawer = () => {
+  const user = auth.currentUser;
   return (
     <Drawer.Navigator
       initialRouteName="HomeScreen"
@@ -242,7 +243,7 @@ const ProfileScreenWithDrawer = () => {
             <Ionicons
               name="menu"
               size={28}
-              color="#5b67ee"
+              color="#456FE8"
               style={{ marginHorizontal: 5 }}
             />
           </TouchableOpacity>
@@ -254,27 +255,34 @@ const ProfileScreenWithDrawer = () => {
             <MaterialIcons
               name="notifications"
               size={28}
-              color="#5b67ee"
+              color="#456FE8"
               style={{ marginHorizontal: 5 }}
             />
             <View
               style={{
                 backgroundColor: "#c02727",
                 borderRadius: 50,
-                width: 10,
-                height: 10,
+                width: 8,
+                height: 8,
                 position: "absolute",
                 right: 7,
               }}
             ></View>
           </TouchableOpacity>
         ),
+        headerTitle: () => (
+          <Text style={{ fontSize: 16, color: "#456FE8" }}>
+            ようこそ, {user ? user.displayName : "Guest"}
+          </Text>
+        ),
       })}
     >
       <Drawer.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ title: "ホーム" }}
+        options={{
+          title: "ホーム",
+        }}
       />
     </Drawer.Navigator>
   );
@@ -357,7 +365,7 @@ export default function App() {
         <Stack.Screen
           name="DetailScreen"
           component={Content}
-          options={{ title: "イベント情報", headerBackTitle: "" }}
+          options={{ headerBackTitle: "戻る", title: "イベント" }}
         />
         <Stack.Screen
           name="Categories"
@@ -372,20 +380,21 @@ export default function App() {
         <Stack.Screen
           name="ListScreen"
           component={ListScreen}
-          options={{ title: "すべて", headerBackTitle: "" }}
+          options={{ title: "", headerBackTitle: "" }}
         />
         <Stack.Screen
           name="CategoryScreen"
           component={CategoryScreen}
-          options={{ title: "イベント情報", headerBackTitle: "戻る" }}
+          options={{ title: "", headerBackTitle: "" }}
         />
         <Stack.Screen
           name="MainTabs"
           component={MainTabs}
           options={{
             headerShown: false,
-            headerBackTitle: "戻る",
             gestureEnabled: false,
+            headerBackTitle: "戻る",
+            title: "Event",
           }}
         />
         <Stack.Screen

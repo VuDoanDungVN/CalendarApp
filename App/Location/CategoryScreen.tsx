@@ -25,9 +25,7 @@ const CategoryScreen = ({ route, navigation }: any) => {
             </Text>
             <View style={styles.featuredArticleFooter}>
               <Text style={styles.featuredArticleAuthor}>{item.author}</Text>
-              <Text style={styles.featuredArticleDate}>
-                {item.time} {item.date}
-              </Text>
+              <Text style={styles.featuredArticleDate}>{item.date}</Text>
             </View>
           </View>
         </View>
