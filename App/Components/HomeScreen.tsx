@@ -52,7 +52,7 @@ const HomeScreen = ({ navigation }: any) => {
   };
 
   return (
-    <>
+    <ScrollView>
       <View style={styles.container}>
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -94,7 +94,7 @@ const HomeScreen = ({ navigation }: any) => {
               <Text style={styles.showAllText}>すべて</Text>
             </TouchableOpacity>
           </View>
-          {ContentData.slice(0, 3).map((item, index) => (
+          {ContentData.slice(0, 10).map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate("DetailScreen", { item })}
@@ -134,7 +134,7 @@ const HomeScreen = ({ navigation }: any) => {
           ))}
         </View>
       </View>
-    </>
+    </ScrollView>
   );
 };
 

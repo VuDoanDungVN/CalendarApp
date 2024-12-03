@@ -20,13 +20,13 @@ import * as ImagePicker from "expo-image-picker";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAkBR04aL_q6plFnKAOZ2oag47fxvD-ssI",
-  authDomain: "eventapp-75f24.firebaseapp.com",
-  projectId: "eventapp-75f24",
-  storageBucket: "eventapp-75f24.firebasestorage.app",
-  messagingSenderId: "805095932537",
-  appId: "1:805095932537:web:e44275ef8abb2b00138aa8",
-  measurementId: "G-RD4XNBB9Z7",
+  apiKey: "AIzaSyDg3rMnaKE2w2AxspSqWsvPdcE-NFptsUI",
+  authDomain: "calendarapp-occ.firebaseapp.com",
+  projectId: "calendarapp-occ",
+  storageBucket: "calendarapp-occ.appspot.com",
+  messagingSenderId: "552088738570",
+  appId: "1:552088738570:web:b8091e9dce889f85ce38f3",
+  measurementId: "G-ZQQF9JPQWW",
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

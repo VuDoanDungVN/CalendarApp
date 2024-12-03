@@ -8,11 +8,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { auth, db, pickImage } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-export default function EditProfileScreen() {
+export default function EditProfileScreen({ navigation }: any) {
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const user = auth.currentUser;
 
@@ -30,19 +31,6 @@ export default function EditProfileScreen() {
     fetchProfileImage();
   }, [user]);
 
-  const handlePickImage = async () => {
-    if (user) {
-      await pickImage(user.uid);
-      // Sau khi tải lên hình ảnh, lấy lại URL hình ảnh từ Firestore
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
-      if (userDoc.exists()) {
-        setProfileImageUrl(userDoc.data().profileImageUrl);
-      }
-    }
-  };
-
-
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -56,12 +44,6 @@ export default function EditProfileScreen() {
             <Entypo name="user" size={50} color="gray" />
           </View>
         )}
-        <TouchableOpacity
-          onPress={handlePickImage}
-          style={styles.cameraIconContainer}
-        >
-          <Entypo name="camera" size={24} color="white" />
-        </TouchableOpacity>
       </View>
       <Text style={{ fontSize: 15, marginVertical: 5 }}>Name :</Text>
       <TextInput
@@ -84,6 +66,12 @@ export default function EditProfileScreen() {
         defaultValue={user?.phoneNumber ?? ""}
         editable={false}
       />
+      <TouchableOpacity onPress={() => navigation.navigate("SettingScreen")}>
+        <View style={styles.updateButton}>
+          <FontAwesome6 name="edit" size={20} color="#fff" />
+          <Text style={styles.updateButtonText}>Edit profile</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -157,5 +145,20 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     borderRadius: 12,
     padding: 5,
+  },
+  updateButton: {
+    backgroundColor: "#456FE8",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  updateButtonText: {
+    color: "#fff",
+    fontSize: 15,
   },
 });

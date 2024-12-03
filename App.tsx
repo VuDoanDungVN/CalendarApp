@@ -12,10 +12,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import FirstScreen from "./App/Components/FirstScreen";
 import LoginScreen from "./App/Auth/LoginScreen";
 import RegisterScreen from "./App/Auth/RegisterScreen";
@@ -33,11 +30,12 @@ import { auth, db, pickImage } from "./firebase";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import SettingScreen from "./App/Auth/SettingScreen";
 import EditProfileScreen from "./App/Auth/EditProfile";
 import { ContentData } from "./App/Data/DataList";
 import PrivacyScreen from "./App/Components/Privacy";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 type Event = {
   categories: string;
@@ -61,22 +59,16 @@ const Drawer = createDrawerNavigator();
 // Custom Drawer Content
 const CustomDrawerContent = ({ props, navigation }: any) => {
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
-  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [nearestEvent, setNearestEvent] = useState<Event | null>(null);
-  const [modalVisible, setModalVisible] = useState(false);
   const user = auth.currentUser;
 
   useEffect(() => {
-    // Lấy ngày hiện tại
     const currentDate = new Date();
-
-    // Tìm sự kiện gần nhất
     const upcomingEvents = ContentData.filter((event) => {
       const eventDate = new Date(event.date);
-      return eventDate >= currentDate; // Chỉ lọc các sự kiện từ ngày hiện tại trở đi
+      return eventDate >= currentDate;
     });
 
-    // Tìm sự kiện có ngày gần nhất
     if (upcomingEvents.length > 0) {
       const nearest = upcomingEvents.reduce((prev, curr) => {
         const prevDate = new Date(prev.date);
@@ -90,10 +82,9 @@ const CustomDrawerContent = ({ props, navigation }: any) => {
 
   const handleNotificationsPress = () => {
     if (nearestEvent) {
-      // Hiển thị thông tin sự kiện gần nhất trong Alert
       Alert.alert(
         "最新のイベント",
-        `イベント名: ${nearestEvent.eventName}\n日付: ${nearestEvent.date}\nタイム: ${nearestEvent.time}\n場所: ${nearestEvent.location}\nイベント情報: ${nearestEvent.description}`,
+        `イベント名: ${nearestEvent.eventName}\n日付: ${nearestEvent.date}\nタイム: ${nearestEvent.time}\n場所: ${nearestEvent.location}`,
         [{ text: "閉じる" }]
       );
     } else {
@@ -118,7 +109,6 @@ const CustomDrawerContent = ({ props, navigation }: any) => {
   const handlePickImage = async () => {
     if (user) {
       await pickImage(user.uid);
-      // Sau khi tải lên hình ảnh, lấy lại URL hình ảnh từ Firestore
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
       if (userDoc.exists()) {
@@ -137,99 +127,145 @@ const CustomDrawerContent = ({ props, navigation }: any) => {
         Alert.alert("Error", error.message);
       });
   };
-
   return (
-    <DrawerContentScrollView {...props}>
-      <View style={styles.container}>
-        <View>
-          <View style={styles.profileContainer}>
-            <View style={styles.imageContainer}>
-              {profileImageUrl ? (
-                <Image
-                  source={{ uri: profileImageUrl }}
-                  style={styles.profileImage}
-                />
-              ) : (
-                <View style={styles.emptyImageContainer}>
-                  <Entypo name="user" size={50} color="gray" />
-                </View>
-              )}
-              <TouchableOpacity
-                onPress={handlePickImage}
-                style={styles.cameraIconContainer}
-              >
-                <Entypo name="camera" size={24} color="white" />
-              </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.profileContainer}>
+        <View style={styles.imageContainer}>
+          {profileImageUrl ? (
+            <Image
+              source={{ uri: profileImageUrl }}
+              style={styles.profileImage}
+            />
+          ) : (
+            <View style={styles.emptyImageContainer}>
+              <Entypo name="user" size={50} color="gray" />
             </View>
-            <View style={styles.userInfoContainer}>
-              <Text style={styles.userName}>{user?.displayName}</Text>
-              <Text style={styles.userEmail}>{user?.email}</Text>
-              <View>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("EditProfileScreen")}
-                >
-                  <View style={styles.profileEditProfile}>
-                    <Text style={styles.buttonText}>Edit profile</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <TouchableOpacity onPress={handleNotificationsPress}>
-            <View style={styles.optionContainer}>
-              <View style={styles.iconContainer}>
-                <Ionicons name="notifications" size={24} color="#9da6c2" />
-              </View>
-              <View>
-                <Text style={styles.optionTitle}>Notifications</Text>
-                <Text style={styles.optionSubtitle}>Turn on notifications</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+          )}
           <TouchableOpacity
-            onPress={() => navigation.navigate("PrivacyScreen")}
+            onPress={handlePickImage}
+            style={styles.cameraIconContainer}
           >
-            <View style={styles.optionContainer}>
-              <View style={styles.iconContainer}>
-                <AntDesign name="lock1" size={24} color="#9da6c2" />
-              </View>
-              <View>
-                <Text style={styles.optionTitle}>Privacy</Text>
-                <Text style={styles.optionSubtitle}>Privacy settings</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("SettingScreen")}
-          >
-            <View style={styles.optionContainer}>
-              <View style={styles.iconContainer}>
-                <Ionicons name="settings" size={24} color="#9da6c2" />
-              </View>
-              <View>
-                <Text style={styles.optionTitle}>Password</Text>
-                <Text style={styles.optionSubtitle}>
-                  General, password, etc.
-                </Text>
-              </View>
-            </View>
+            <Entypo name="camera" size={24} color="white" />
           </TouchableOpacity>
         </View>
-        <View style={{ marginTop: 350 }}>
-          <TouchableOpacity onPress={handleLogout}>
-            <View style={styles.profileLogout}>
-              <Text style={styles.buttonTextLogout}>Logout</Text>
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.userName}>{user?.displayName}</Text>
+          <Text style={styles.userEmail}>{user?.email}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("EditProfileScreen")}
+          >
+            <View style={styles.profileEditProfile}>
+              <Text style={styles.buttonText}>Edit profile</Text>
             </View>
           </TouchableOpacity>
         </View>
       </View>
-    </DrawerContentScrollView>
+      <View style={styles.optionsContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("EditProfileScreen")}
+        >
+          <View style={styles.optionContainer}>
+            <View style={styles.drawerCard}>
+              <View style={styles.iconContainer}>
+                <FontAwesome5 name="user-alt" size={22} color="#d1d1d1" />
+              </View>
+              <View>
+                <Text style={styles.optionTitle}>アカウント</Text>
+              </View>
+            </View>
+            <View>
+              <AntDesign name="right" size={19} color="#d1d1d1" />
+            </View>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleNotificationsPress}>
+          <View style={styles.optionContainer}>
+            <View style={styles.drawerCard}>
+              <View style={styles.iconContainer}>
+                <MaterialIcons name="notifications" size={22} color="#d1d1d1" />
+              </View>
+              <View>
+                <Text style={styles.optionTitle}>お知らせ</Text>
+              </View>
+            </View>
+            <View>
+              <AntDesign name="right" size={19} color="#d1d1d1" />
+            </View>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <View style={styles.optionContainer}>
+            <View style={styles.drawerCard}>
+              <View style={styles.iconContainer}>
+                <MaterialCommunityIcons
+                  name="comment"
+                  size={22}
+                  color="#d1d1d1"
+                />
+              </View>
+              <View>
+                <Text style={styles.optionTitle}>言語</Text>
+              </View>
+            </View>
+            <View>
+              <AntDesign name="right" size={19} color="#d1d1d1" />
+            </View>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout}>
+          <View style={styles.optionContainer}>
+            <View style={styles.drawerCard}>
+              <View style={styles.iconContainer}>
+                <MaterialIcons name="logout" size={22} color="#d1d1d1" />
+              </View>
+              <View>
+                <Text style={styles.optionTitle}>ログアウト</Text>
+              </View>
+            </View>
+            <View>
+              <AntDesign name="right" size={19} color="#d1d1d1" />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 // Drawer Profile and Menu
 const ProfileScreenWithDrawer = () => {
+  const [nearestEvent, setNearestEvent] = useState<Event | null>(null);
   const user = auth.currentUser;
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const upcomingEvents = ContentData.filter((event) => {
+      const eventDate = new Date(event.date);
+      return eventDate >= currentDate;
+    });
+
+    if (upcomingEvents.length > 0) {
+      const nearest = upcomingEvents.reduce((prev, curr) => {
+        const prevDate = new Date(prev.date);
+        const currDate = new Date(curr.date);
+        return prevDate < currDate ? prev : curr;
+      });
+
+      setNearestEvent(nearest);
+    }
+  }, []);
+
+  const handleNotificationsPress = () => {
+    if (nearestEvent) {
+      Alert.alert(
+        "最新のイベント",
+        `イベント名: ${nearestEvent.eventName}\n日付: ${nearestEvent.date}\nタイム: ${nearestEvent.time}\n場所: ${nearestEvent.location}`,
+        [{ text: "閉じる" }]
+      );
+    } else {
+      Alert.alert("通知", "最近のイベントはありません。");
+    }
+  };
   return (
     <Drawer.Navigator
       initialRouteName="HomeScreen"
@@ -243,19 +279,17 @@ const ProfileScreenWithDrawer = () => {
             <Ionicons
               name="menu"
               size={28}
-              color="#456FE8"
+              color="#9d9d9d"
               style={{ marginHorizontal: 5 }}
             />
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity
-            onPress={() => alert("Notification button pressed")}
-          >
+          <TouchableOpacity onPress={handleNotificationsPress}>
             <MaterialIcons
               name="notifications"
               size={28}
-              color="#456FE8"
+              color="#9d9d9d"
               style={{ marginHorizontal: 5 }}
             />
             <View
@@ -271,8 +305,8 @@ const ProfileScreenWithDrawer = () => {
           </TouchableOpacity>
         ),
         headerTitle: () => (
-          <Text style={{ fontSize: 16, color: "#456FE8" }}>
-            ようこそ, {user ? user.displayName : "Guest"}
+          <Text style={{ fontSize: 16, color: "#9d9d9d" }}>
+            Wellcome, {user ? user.displayName : "Guest"}
           </Text>
         ),
       })}
@@ -422,7 +456,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   drawerHeader: {
-    padding: 20,
+    padding: 10,
     backgroundColor: "#f0f0f0",
   },
   drawerHeaderText: {
@@ -432,16 +466,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f0f0f0",
-    padding: 5,
+    padding: 10,
+    marginTop: 50,
   },
   profileContainer: {
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "row",
     padding: 15,
     marginVertical: 5,
     borderRadius: 10,
+  },
+  optionsContainer: {
+    flex: 1,
+  },
+  logoutContainer: {
+    marginTop: 16,
   },
   imageContainer: {
     position: "relative",
@@ -483,10 +523,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#666",
   },
+  drawerCard: {
+    flex: 1,
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+  },
   optionContainer: {
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     flexDirection: "row",
     padding: 15,
     marginVertical: 5,
@@ -496,11 +542,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f7fa",
     padding: 10,
     borderRadius: 50,
-    marginRight: 15,
+    marginRight: 30,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
   },
   optionTitle: {
     fontSize: 16,
     fontWeight: "600",
+    color: "#B0B0B0",
   },
   optionSubtitle: {
     fontSize: 16,
@@ -515,9 +567,9 @@ const styles = StyleSheet.create({
   },
   profileLogout: {
     backgroundColor: "#456FE8",
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    marginVertical: 5,
+    textAlign: "center",
+    alignContent: "center",
+    padding: 25,
     borderRadius: 10,
     alignItems: "center",
     flex: 1,
@@ -529,6 +581,7 @@ const styles = StyleSheet.create({
   buttonTextLogout: {
     color: "#fff",
     fontSize: 16,
+    height: 50,
   },
   nearestEventContainer: {
     padding: 20,
