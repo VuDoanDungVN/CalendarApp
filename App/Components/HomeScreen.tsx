@@ -45,13 +45,6 @@ const HomeScreen = ({ navigation }: any) => {
           <Image source={item.eventImage} style={styles.sliderImage} />
           <View style={styles.sliderTextContainer}>
             <Text style={styles.sliderTitle}>{item.eventName}</Text>
-            <Text
-              numberOfLines={2}
-              ellipsizeMode="tail"
-              style={styles.sliderContent}
-            >
-              {item.description}
-            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -59,14 +52,9 @@ const HomeScreen = ({ navigation }: any) => {
   };
 
   return (
-    <>
-      <ScrollView style={styles.container}>
+    <ScrollView>
+      <View style={styles.container}>
         <View>
-          <View>
-            <Text style={styles.titleCustomer}>
-              ようこそ, {user ? user.displayName : "Guest"}
-            </Text>
-          </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {ContentData.map((categories, index) => (
               <TouchableOpacity
@@ -106,7 +94,7 @@ const HomeScreen = ({ navigation }: any) => {
               <Text style={styles.showAllText}>すべて</Text>
             </TouchableOpacity>
           </View>
-          {ContentData.slice(0, 3).map((item, index) => (
+          {ContentData.slice(0, 10).map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate("DetailScreen", { item })}
@@ -118,7 +106,11 @@ const HomeScreen = ({ navigation }: any) => {
                     style={styles.featuredArticleImage}
                   />
                   <View style={styles.featuredArticleTextContainer}>
-                    <Text style={styles.featuredArticleTitle}>
+                    <Text
+                      style={styles.featuredArticleTitle}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
                       {item.eventName}
                     </Text>
                     <Text
@@ -132,7 +124,7 @@ const HomeScreen = ({ navigation }: any) => {
                         {item.author}
                       </Text>
                       <Text style={styles.featuredArticleDate}>
-                        {item.time} {item.date}
+                        {item.date}
                       </Text>
                     </View>
                   </View>
@@ -141,8 +133,8 @@ const HomeScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           ))}
         </View>
-      </ScrollView>
-    </>
+      </View>
+    </ScrollView>
   );
 };
 

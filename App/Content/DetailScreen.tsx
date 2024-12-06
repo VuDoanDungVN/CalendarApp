@@ -7,88 +7,109 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Platform,
+  Linking,
 } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import MapView, { Marker } from "react-native-maps";
 
 export default function DetailScreen({ route, navigation }: any) {
   const { item } = route.params;
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [interestedCount, setInterestedCount] = useState(0);
 
-  // Kiểm tra xem sự kiện đã kết thúc chưa
-  const isEventExpired = new Date(item.date).getTime() < Date.now();
+  // Hàm mở bản đồ mặc định của thiết bị
+  const handleOpenMap = () => {
+    const mapOptions = {
+      latitude: item.latitude,
+      longitude: item.longitude,
+      zoom: 15,
+      query: item.address || "Event location",
+    };
 
-  const handleInterested = () => {
-    if (isEventExpired) {
-      Alert.alert("通知", "このイベントは終了しました。");
-      return;
-    }
-    if (isRegistered) {
-      Alert.alert("通知", "参加しました");
-      return;
-    }
-    setIsRegistered(true);
-    setInterestedCount((prevCount) => prevCount + 1);
-    Alert.alert("通知", "参加しました");
+    // URL động tùy vào nền tảng
+    const url =
+      Platform.OS === "ios"
+        ? `maps://?ll=${mapOptions.latitude},${
+            mapOptions.longitude
+          }&q=${encodeURIComponent(mapOptions.query)}`
+        : `geo:${mapOptions.latitude},${
+            mapOptions.longitude
+          }?q=${encodeURIComponent(mapOptions.query)}`;
+
+    Linking.openURL(url).catch(() =>
+      Alert.alert("エラー", "地図アプリを開くことができません。")
+    );
   };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.eventContainer}>
-        <View>
-          <Text style={styles.eventTitle}>イベント名 : {item.name}</Text>
-          <Text style={styles.eventLocation}>場所 : {item.location}</Text>
-          <Text style={styles.eventDate}>日付 : {item.date}</Text>
-        </View>
-      </View>
       <View>
-        <Image
-          source={item.eventImage}
-          style={{ width: "100%", height: 200, borderRadius: 10 }}
-        />
-      </View>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={handleInterested}
-        disabled={isEventExpired || isRegistered}
-      >
-        <View
-          style={[
-            styles.interestedButton,
-            (isEventExpired || isRegistered) && styles.disabledButton,
-          ]}
-        >
+        <View style={styles.eventContainer}>
           <Text
-            style={{
-              color: "#fff",
-              fontWeight: "bold",
-              fontSize: 15,
-            }}
+            style={styles.eventTitle}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           >
-            {isEventExpired
-              ? "終了"
-              : isRegistered
-              ? "参加しました"
-              : `参加 (${interestedCount}/100)`}
+            {item.eventName}
           </Text>
+          <Text
+            style={styles.eventLocation}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            場所 : {item.address}
+          </Text>
+          <Text style={styles.eventDate}>日付 : {item.date}</Text>
+          <Text>時間 : {item.time}</Text>
         </View>
-      </TouchableOpacity>
-      <View style={styles.eventCard}>
-        <Text style={styles.eventLabel}>イベント情報 :</Text>
-        <Text>{item.description}</Text>
-      </View>
-      <View style={styles.eventCard}>
-        <Text style={styles.eventLabel}>チケット :</Text>
-        <Text>大人 : ¥ {item.ticketsGeneralAdmission}</Text>
-        <Text>子供 : {item.ticketsChildren}</Text>
-      </View>
-      <View style={styles.eventCard}>
-        <Text style={styles.eventLabel}>そこに行く方法 :</Text>
-        <Text>{item.howToGetThere}</Text>
-      </View>
-      <View style={styles.eventCard}>
-        <Text style={styles.eventLabel}>追加情報 :</Text>
-        <Text>{item.additionalInfo}</Text>
+        <View>
+          <Image
+            source={item.eventImage}
+            style={{ width: "100%", height: 200, borderRadius: 10 }}
+          />
+        </View>
+        <View style={{ marginVertical: 5 }}>
+          <Text style={styles.eventTitle}> マップビュー :</Text>
+        </View>
+        <View>
+          {/* Hiển thị Google Maps */}
+          <TouchableOpacity style={styles.mapContainer} onPress={handleOpenMap}>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: item.latitude,
+                longitude: item.longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              }}
+            >
+              {/* Thêm Marker */}
+              <Marker
+                coordinate={{
+                  latitude: item.latitude,
+                  longitude: item.longitude,
+                }}
+                title={item.eventName}
+                description={item.address}
+              />
+            </MapView>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.eventCard}>
+          <Text style={styles.eventLabel}>イベント情報 :</Text>
+          <Text>{item.description}</Text>
+        </View>
+        <View style={styles.eventCard}>
+          <Text style={styles.eventLabel}>チケット :</Text>
+          <Text>大人 : {item.ticketsGeneralAdmission}</Text>
+          <Text>子供 : {item.ticketsChildren}</Text>
+        </View>
+        <View style={styles.eventCard}>
+          <Text style={styles.eventLabel}>そこに行く方法 :</Text>
+          <Text>{item.howToGetThere}</Text>
+        </View>
+        <View style={styles.eventCard}>
+          <Text style={styles.eventLabel}>追加情報 :</Text>
+          <Text>{item.additionalInfo}</Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -96,55 +117,74 @@ export default function DetailScreen({ route, navigation }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fafafa",
+    backgroundColor: "#FFFFFF", // Nền trắng sạch
     flex: 1,
     padding: 10,
   },
+  mapContainer: {
+    borderRadius: 10,
+    overflow: "hidden", // Giúp góc map hiển thị bo tròn
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    marginVertical: 5,
+  },
   interestedButton: {
-    backgroundColor: "#456FE8",
-    width: "100%",
+    backgroundColor: "#2979FF",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 10,
     marginVertical: 10,
   },
   disabledButton: {
-    backgroundColor: "#9da6c2",
+    backgroundColor: "#BDBDBD",
     flexDirection: "row",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    marginVertical: 10,
   },
   eventContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 10,
+    flexDirection: "column",
+    gap: 5,
+    backgroundColor: "#F5F5F5",
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    marginBottom: 5,
   },
   eventTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    marginVertical: 10,
-    color: "#456FE8",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1565C0",
   },
   eventLocation: {
-    fontSize: 15,
-    color: "#5F5F5F",
+    fontSize: 14,
+    color: "#424242",
   },
   eventDate: {
-    fontSize: 15,
-    color: "#5F5F5F",
+    fontSize: 14,
+    color: "#424242",
   },
   eventCard: {
-    backgroundColor: "#f9f9f9",
-    borderWidth: 0.5,
+    backgroundColor: "#FAFAFA",
+    borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#c0c6d7",
-    padding: 20,
+    borderColor: "#E0E0E0",
+    padding: 10,
     marginVertical: 5,
   },
   eventLabel: {
-    fontSize: 15,
-    fontWeight: "600",
-    marginVertical: 5,
-    color: "#456FE8",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#1976D2",
+  },
+  map: {
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
   },
 });

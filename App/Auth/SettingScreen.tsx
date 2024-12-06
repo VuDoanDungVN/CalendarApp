@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { changePassword, changeProfile } from "../../firebase";
 import { useNavigation } from "@react-navigation/native";
+import Feather from "@expo/vector-icons/Feather";
 
 export default function ChangePasswordScreen() {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -64,7 +65,7 @@ export default function ChangePasswordScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={{ marginVertical: 5, color: "#5d50ad" }}>Name :</Text>
+      <Text style={{ marginVertical: 5, color: "#5d50ad" }}>名前 :</Text>
       <TextInput
         style={styles.input}
         placeholder="Display Name"
@@ -73,6 +74,7 @@ export default function ChangePasswordScreen() {
       />
       <TouchableOpacity onPress={handleUpdateProfile}>
         <View style={styles.loginButton}>
+          <Feather name="save" size={20} color="#fff" />
           <Text style={styles.loginButtonText}>Update Profile</Text>
         </View>
       </TouchableOpacity>
@@ -89,7 +91,7 @@ export default function ChangePasswordScreen() {
         </View>
       )}
 
-      <Text style={{ marginVertical: 5, color: "#5d50ad" }}>Password :</Text>
+      <Text style={{ marginVertical: 5, color: "#5d50ad" }}>パスワード :</Text>
       <TextInput
         style={styles.input}
         placeholder="Current Password"
@@ -113,6 +115,7 @@ export default function ChangePasswordScreen() {
       />
       <TouchableOpacity onPress={handleChangePassword}>
         <View style={styles.loginButton}>
+          <Feather name="save" size={20} color="#fff" />
           <Text style={styles.loginButtonText}>Update Password</Text>
         </View>
       </TouchableOpacity>
@@ -168,10 +171,14 @@ const styles = StyleSheet.create({
     color: "green", // Màu sắc cho thông báo thành công
   },
   loginButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
     backgroundColor: "#456FE8",
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 5,
+    gap: 5,
     alignItems: "center",
   },
   loginButtonText: {
