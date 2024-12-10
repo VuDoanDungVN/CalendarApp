@@ -4,7 +4,11 @@
     "slug": "CalendarApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -17,17 +21,28 @@
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to take photos.",
         "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to upload images."
-      }
+      },
+      "bundleIdentifier": "com.vudungit.EventApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.vudungit.EventApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f7327bd6-b4b4-4cfb-94ee-fc5d9e4ba273"
+      }
     }
   }
 }

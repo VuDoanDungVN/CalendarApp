@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import { ContentData } from "../Data/DataList";
-import Carousel, { Pagination } from "react-native-snap-carousel";
+import Carousel from "react-native-snap-carousel";
 
 const HomeScreen = ({ navigation }: any) => {
   const { width: screenWidth } = Dimensions.get("window");
@@ -89,7 +89,7 @@ const HomeScreen = ({ navigation }: any) => {
             />
           </View>
           <View style={styles.recentActivityContainer}>
-            <Text style={styles.recentActivityText}>注目記事</Text>
+            <Text style={styles.recentActivityText}>Top Event</Text>
             <TouchableOpacity onPress={() => navigation.navigate("ListScreen")}>
               <Text style={styles.showAllText}>すべて</Text>
             </TouchableOpacity>
@@ -101,10 +101,24 @@ const HomeScreen = ({ navigation }: any) => {
             >
               <View style={styles.featuredArticleContainer}>
                 <View style={styles.featuredArticleContent}>
-                  <Image
-                    source={item.eventImage}
-                    style={styles.featuredArticleImage}
-                  />
+                  <View style={{ position: "relative" }}>
+                    <Image
+                      source={item.eventImage}
+                      style={styles.featuredArticleImage}
+                    />
+                    {index < 3 && (
+                      <Image
+                        source={
+                          index === 0
+                            ? require("../../assets/top1.png")
+                            : index === 1
+                            ? require("../../assets/top2.png")
+                            : require("../../assets/top3.png")
+                        }
+                        style={styles.badgeImage}
+                      />
+                    )}
+                  </View>
                   <View style={styles.featuredArticleTextContainer}>
                     <Text
                       style={styles.featuredArticleTitle}
@@ -209,7 +223,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
   },
   carouselContentContainer: {
     paddingLeft: 10,
@@ -281,5 +294,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
+  },
+  badgeImage: {
+    position: "absolute",
+    top: 5,
+    left: 0,
+    width: 40,
+    height: 40,
+    zIndex: 1,
   },
 });
